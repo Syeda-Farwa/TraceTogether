@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trace Together - Pakistan's Leading Missing Persons Support Network</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Trace Together - Missing Persons Support Network</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Your existing CSS remains exactly the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -16,55 +20,187 @@
             --warning-color: #ffc107;
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --text-light: #f8f9fa;
+            --text-dark: #343a40;
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-light);
+            overflow: hidden;
+            height: 100vh;
+            background: var(--secondary-gradient);
         }
 
-        /* NAVBAR STYLES - COMPACT VERSION (90% appearance) */
-        .navbar-custom {
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 0.8rem 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+        /* Full-screen carousel */
+        .fullscreen-carousel {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .navbar-custom.scrolled {
-            padding: 0.4rem 0;
-            background: rgba(26, 26, 46, 0.98);
-        }
-
-        .navbar-brand {
-            color: white !important;
-            font-size: 1.35rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
-        .navbar-brand:hover {
-            transform: scale(1.05);
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--secondary-gradient);
+            opacity: 0.85;
+            z-index: -1;
+        }
+
+        .slide-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 2.5rem;
+            background: var(--glass-bg);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            animation: fadeIn 1s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .slide-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .slide-description {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        /* Progress indicator */
+        .progress-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+        }
+
+        .progress-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .progress-dot.active {
+            background: var(--primary-gradient);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-light);
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            background: var(--glass-bg);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Skip button */
+        .skip-button {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            background: var(--glass-bg);
+            color: var(--text-light);
+            border: 1px solid var(--glass-border);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .skip-button:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        /* Logo styling */
+        .logo-container {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .navbar-logo {
-            width: 36px;
-            height: 36px;
-            margin-right: 10px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -72,1917 +208,432 @@
             transition: all 0.3s ease;
         }
 
-        .navbar-brand:hover .navbar-logo {
-            transform: rotateY(180deg);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        }
-
         .logo-tt {
-            font-size: 1.08rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            letter-spacing: -1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        .nav-link {
-            color: #adb5bd !important;
-            margin: 0 0.4rem;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.4rem 0.8rem !important;
-            border-radius: 25px;
-            font-size: 0.9rem;
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
-        .nav-link:hover {
-            color: white !important;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            transform: translateY(-2px);
-        }
-
-        .btn-login {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            border: none;
-            color: white;
-            border-radius: 25px;
-            padding: 0.5rem 1.5rem;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
-            background: linear-gradient(135deg, #20c997, #28a745);
-        }
-
-        .navbar-custom-extra-compact {
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 0.6rem 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .navbar-custom-extra-compact.scrolled {
-            padding: 0.3rem 0;
-            background: rgba(26, 26, 46, 0.98);
-        }
-
-        .navbar-custom-extra-compact .navbar-brand {
-            font-size: 1.25rem;
-        }
-
-        .navbar-custom-extra-compact .navbar-logo {
-            width: 32px;
-            height: 32px;
-            margin-right: 8px;
-        }
-
-        .navbar-custom-extra-compact .logo-tt {
-            font-size: 1rem;
-        }
-
-        .navbar-custom-extra-compact .nav-link {
-            margin: 0 0.3rem;
-            padding: 0.3rem 0.7rem !important;
-            font-size: 0.85rem;
-        }
-
-        .navbar-custom-extra-compact .btn-login {
-            padding: 0.4rem 1.3rem;
-            font-size: 0.85rem;
-        }
-
-        .hero-section {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 10rem 0 6rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
+        /* Logo loader */
+        .logo-loader {
+            position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,100 1000,0"/></svg>');
-            opacity: 0.1;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
+        .logo-loader-content {
+            text-align: center;
         }
 
-        .hero-title {
-            font-size: 3.5rem;
+        .loader-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .loader-logo-text {
+            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 1s ease;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
 
-        .hero-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.95;
-            animation: fadeInUp 1s ease 0.2s both;
+        .loader-text {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-top: 15px;
         }
 
-        .hero-cta {
-            animation: fadeInUp 1s ease 0.4s both;
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-15px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-7px) translateX(-50%);
+            }
         }
 
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        .btn-hero {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            border: none;
-            color: white;
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 50px;
-            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-hero:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(40, 167, 69, 0.4);
-            background: linear-gradient(135deg, #20c997, #28a745);
-        }
-
-        .carousel-3d-section {
-            background: var(--secondary-gradient);
-            padding: 6rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .carousel-3d-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-        }
-
-        .carousel-3d-container {
-            perspective: 1500px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 450px;
-            position: relative;
-        }
-
-        .carousel-3d {
-            position: relative;
-            width: 320px;
-            height: 220px;
-            transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .carousel-item-3d {
-            position: absolute;
-            width: 300px;
-            height: 200px;
-            border-radius: 25px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            border: 2px solid var(--glass-border);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            cursor: pointer;
-            transition: all 0.6s ease;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .carousel-item-3d:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.08) rotateY(5deg);
-            box-shadow: 0 25px 80px rgba(102, 126, 234, 0.5);
-        }
-
-        .carousel-item-3d {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.4));
-            border-color: rgba(102, 126, 234, 0.8);
-            box-shadow: 0 20px 70px rgba(102, 126, 234, 0.7);
-        }
-
-        .carousel-item-3d .icon {
-            font-size: 4rem;
-            margin-bottom: 1.2rem;
-            color: #64b5f6;
-            transition: all 0.3s ease;
-        }
-
-        .carousel-item-3d:hover .icon {
-            transform: scale(1.2) rotateY(10deg);
-            color: #90caf9;
-        }
-
-        .carousel-item-3d h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            text-align: center;
-        }
-
-        .carousel-item-3d p {
-            font-size: 0.95rem;
-            opacity: 0.95;
-            text-align: center;
-            padding: 0 1.2rem;
-            line-height: 1.5;
-        }
-
-        .carousel-controls {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 25px;
-        }
-
-        .carousel-btn {
-            background: var(--glass-bg);
-            border: 2px solid var(--glass-border);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(15px);
-            font-weight: 600;
-        }
-
-        .carousel-btn:hover {
-            background: rgba(102, 126, 234, 0.5);
-            border-color: rgba(102, 126, 234, 0.8);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .carousel-indicators {
-            position: absolute;
-            top: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-        }
-
-        .indicator {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .indicator.active {
-            background: #64b5f6;
-            box-shadow: 0 0 20px rgba(100, 181, 246, 0.8);
-            border-color: rgba(100, 181, 246, 0.5);
-            transform: scale(1.2);
-        }
-
-        .section-padding {
-            padding: 6rem 0;
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 4rem;
-            color: #2c3e50;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: var(--primary-gradient);
-            border-radius: 2px;
-        }
-
-        .card-custom {
-            border: none;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            border-radius: 25px;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            height: 100%;
-            overflow: hidden;
-            position: relative;
-            background: white;
-        }
-
-        .card-custom::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: var(--primary-gradient);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .card-custom:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-        }
-
-        .card-custom:hover::before {
-            transform: scaleX(1);
-        }
-
-        .icon-large {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.4s ease;
-        }
-
-        .card-custom:hover .icon-large {
-            transform: scale(1.15) rotateY(15deg);
-        }
-
-        .stats-section {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 4rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stats-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.05)"><circle cx="100" cy="50" r="30"/><circle cx="300" cy="20" r="20"/><circle cx="500" cy="70" r="25"/><circle cx="700" cy="40" r="15"/><circle cx="900" cy="60" r="35"/></svg>');
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 2rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-            height: 100%;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            display: block;
-            color: #64b5f6;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1.2rem;
-            opacity: 0.95;
-            font-weight: 500;
-        }
-
-        .emergency-banner {
-            background: linear-gradient(135deg, #dc3545, #c82333);
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            font-weight: 600;
-            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .footer-custom {
-            background: rgba(26, 26, 46, 0.95);
-            color: white;
-            padding: 4rem 0 2rem;
-            position: relative;
-            margin-top: auto;
-        }
-
-        .footer-custom::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--primary-gradient);
-        }
-
-        .footer-custom h5 {
-            color: #64b5f6;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .footer-custom a {
-            color: #adb5bd;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .footer-custom a:hover {
-            color: #64b5f6;
-            transform: translateX(5px);
-        }
-
-        .social-links {
-            text-align: left;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.8rem;
-            margin: 0 15px 0 0;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .social-links a:first-child {
-            margin-left: 0;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-3px) scale(1.2);
-        }
-
-        .social-links a[href*="facebook"]:hover,
-        .social-links a.facebook:hover {
-            color: #1877F2;
-        }
-
-        .social-links a[href*="twitter"]:hover,
-        .social-links a.twitter:hover {
-            color: #1DA1F2;
-        }
-
-        .social-links a[href*="instagram"]:hover,
-        .social-links a.instagram:hover {
-            color: #E4405F;
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .social-links a[href*="linkedin"]:hover,
-        .social-links a.linkedin:hover {
-            color: #0077B5;
-        }
-
-        .social-links a[href*="whatsapp"]:hover,
-        .social-links a[href*="wa.me"]:hover,
-        .social-links a[href*="api.whatsapp"]:hover,
-        .social-links a.whatsapp:hover {
-            color: #25D366 !important;
-        }
-
-        .social-links-container {
-            display: flex;
-            justify-content: flex-start;
-            gap: 15px;
-        }
-
-        .social-links-container a {
-            color: white;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-            margin: 0;
-        }
-
-        .social-links-container a:hover {
-            transform: translateY(-3px) scale(1.2);
-        }
-
-        .social-links-container a[href*="facebook"]:hover,
-        .social-links-container a.facebook:hover {
-            color: #1877F2;
-        }
-
-        .social-links-container a[href*="twitter"]:hover,
-        .social-links-container a.twitter:hover {
-            color: #1db6f2;
-        }
-
-        .social-links-container a[href*="instagram"]:hover,
-        .social-links-container a.instagram:hover {
-            color: #E4405F;
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .social-links-container a[href*="linkedin"]:hover,
-        .social-links-container a.linkedin:hover {
-            color: #0077B5;
-        }
-
-        .social-links-container a[href*="whatsapp"]:hover,
-        .social-links-container a[href*="wa.me"]:hover,
-        .social-links-container a[href*="api.whatsapp"]:hover,
-        .social-links-container a.whatsapp:hover {
-            color: #25D366 !important;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
             }
-            
-            .hero-section {
-                padding: 8rem 0 4rem;
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 20px rgba(102, 126, 234, 0);
             }
-            
-            .carousel-3d-container {
-                height: 350px;
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
             }
-            
-            .carousel-item-3d {
-                width: 260px;
-                height: 180px;
-            }
-            
-            .section-title {
-                font-size: 2.2rem;
-            }
-        }
-
-        .btn-login {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            border: none;
-            color: white;
-            border-radius: 25px;
-            padding: 0.6rem 1.8rem;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
-            background: linear-gradient(135deg, #20c997, #28a745);
-        }
-
-        .loading-spinner {
-            display: none;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-color: #667eea;
-            --text-dark: #2c3e50;
-            --text-light: #6c757d;
-            --white: #ffffff;
-            --shadow-soft: 0 8px 25px rgba(102, 126, 234, 0.15);
-            --shadow-hover: 0 15px 35px rgba(102, 126, 234, 0.25);
-        }
-
-        #about {
-            padding: 6rem 0;
-            background: linear-gradient(135deg, #f8f9ff 0%, #e8e9f3 100%);
-            position: relative;
-        }
-
-        #about::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        #section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 4rem;
-            color: var(--text-dark);
-            position: relative;
-            letter-spacing: -0.02em;
-        }
-
-        #section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 5px;
-            background: var(--primary-gradient);
-            border-radius: 3px;
-            animation: slideIn 0.8s ease-out 0.5s both;
-        }
-
-        #image-container {
-            position: relative;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 400px;
-        }
-
-        #image-container:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        #about-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        #image-container:hover #about-image {
-            transform: scale(1.05);
-        }
-
-        #image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
-            padding: 2.5rem 2rem 2rem;
-            color: var(--white);
-            transform: translateY(0);
-            transition: all 0.3s ease;
-        }
-
-        #overlay-content {
-            text-align: center;
-        }
-
-        #overlay-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            line-height: 1.2;
-        }
-
-        #overlay-text {
-            font-size: 1.1rem;
-            margin: 0;
-            line-height: 1.6;
-            opacity: 0.95;
-        }
-
-        .content-block {
-            margin-bottom: 2.5rem;
-            padding: 1.5rem 0;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            padding-left: 1rem;
-        }
-
-        .content-block:hover {
-            padding-left: 2rem;
-            border-left-color: var(--accent-color);
-        }
-
-        .content-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .content-icon {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-right: 1rem;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .content-block:hover .content-icon {
-            background: var(--primary-gradient);
-            color: var(--white);
-            transform: scale(1.1);
-        }
-
-        .content-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin: 0;
-            line-height: 1.3;
-        }
-
-        .content-text {
-            color: var(--text-light);
-            line-height: 1.7;
-            font-size: 1.05rem;
-            margin: 0;
-        }
-
-        #vision-section .content-icon {
-            background: rgba(240, 147, 251, 0.1);
-            color: #f093fb;
-        }
-
-        #vision-section:hover .content-icon {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: var(--white);
-        }
-
-        #impact-section .content-icon {
-            background: rgba(79, 172, 254, 0.1);
-            color: #4facfe;
-        }
-
-        #impact-section:hover .content-icon {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: var(--white);
-        }
-
-        @keyframes slideIn {
-            from {
-                width: 0;
-                opacity: 0;
+            0% {
+                transform: rotate(0deg);
             }
-            to {
-                width: 80px;
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fade {
+            0%, 100% {
+                opacity: 0.7;
+            }
+            50% {
                 opacity: 1;
             }
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @media (max-width: 992px) {
-            #promise-card {
-                margin-bottom: 3rem;
-            }
-        }
-
+        /* Responsive design */
         @media (max-width: 768px) {
-            #section-title {
-                font-size: 2.5rem;
+            .slide-title {
+                font-size: 2.8rem;
             }
             
-            #about {
-                padding: 4rem 0;
+            .slide-description {
+                font-size: 1.2rem;
             }
             
-            #promise-card {
-                padding: 2.5rem 2rem;
+            .slide-content {
+                padding: 2rem;
+                margin: 0 1.5rem;
             }
             
-            .content-header {
-                flex-direction: column;
-                align-items: flex-start;
-                text-align: left;
+            .logo-container {
+                top: 20px;
+                left: 20px;
             }
             
-            .content-icon {
-                margin-right: 0;
-                margin-bottom: 0.5rem;
+            .logo-text {
+                font-size: 1.2rem;
             }
-        }
-
-        @media (max-width: 576px) {
-            #section-title {
+            
+            .skip-button {
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+            }
+            
+            .loader-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .loader-logo-text {
                 font-size: 2rem;
             }
-            
-            #promise-card {
-                padding: 2rem 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .slide-title {
+                font-size: 2.2rem;
             }
             
-            .content-block {
-                padding-left: 0.5rem;
+            .slide-content {
+                padding: 1.5rem;
+                margin: 0 1rem;
             }
             
-            .content-block:hover {
-                padding-left: 1rem;
+            .skip-button {
+                top: 15px;
+                right: 15px;
+                padding: 8px 16px;
+                font-size: 0.9rem;
             }
-        }
-
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-color: #667eea;
-            --text-dark: #2c3e50;
-            --text-light: #6c757d;
-            --white: #ffffff;
-            --shadow-soft: 0 8px 25px rgba(102, 126, 234, 0.15);
-            --shadow-hover: 0 15px 35px rgba(102, 126, 234, 0.25);
-        }
-
-        #about {
-            padding: 6rem 0;
-            background: linear-gradient(135deg, #f8f9ff 0%, #e8e9f3 100%);
-            position: relative;
-        }
-
-        #about::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        #section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 4rem;
-            color: var(--text-dark);
-            position: relative;
-            letter-spacing: -0.02em;
-        }
-
-        #section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 5px;
-            background: var(--primary-gradient);
-            border-radius: 3px;
-            animation: slideIn 0.8s ease-out 0.5s both;
-        }
-
-        #image-container {
-            position: relative;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 400px;
-            width: 100%;
-        }
-
-        #image-container:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        #about-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        #image-container:hover #about-image {
-            transform: scale(1.05);
-        }
-
-        #image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
-            padding: 2.5rem 2rem 2rem;
-            color: var(--white);
-            transform: translateY(0);
-            transition: all 0.3s ease;
-        }
-
-        #overlay-content {
-            text-align: center;
-        }
-
-        #overlay-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            line-height: 1.2;
-        }
-
-        #overlay-text {
-            font-size: 1.1rem;
-            margin: 0;
-            line-height: 1.6;
-            opacity: 0.95;
-        }
-
-        .content-block {
-            margin-bottom: 2.5rem;
-            padding: 1.5rem 0;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            padding-left: 1rem;
-        }
-
-        .content-block:hover {
-            padding-left: 2rem;
-            border-left-color: var(--accent-color);
-        }
-
-        .content-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .content-icon {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-right: 1rem;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .content-block:hover .content-icon {
-            background: var(--primary-gradient);
-            color: var(--white);
-            transform: scale(1.1);
-        }
-
-        .content-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin: 0;
-            line-height: 1.3;
-        }
-
-        .content-text {
-            color: var(--text-light);
-            line-height: 1.7;
-            font-size: 1.05rem;
-            margin: 0;
-        }
-
-        #vision-section .content-icon {
-            background: rgba(240, 147, 251, 0.1);
-            color: #f093fb;
-        }
-
-        #vision-section:hover .content-icon {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: var(--white);
-        }
-
-        #impact-section .content-icon {
-            background: rgba(79, 172, 254, 0.1);
-            color: #4facfe;
-        }
-
-        #impact-section:hover .content-icon {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: var(--white);
-        }
-
-        @keyframes slideIn {
-            from {
-                width: 0;
-                opacity: 0;
+            
+            .scroll-indicator {
+                bottom: 60px;
+                font-size: 1.5rem;
+                width: 40px;
+                height: 40px;
             }
-            to {
+            
+            .progress-indicator {
+                bottom: 25px;
+            }
+            
+            .logo-container {
+                top: 15px;
+                left: 15px;
+            }
+            
+            .navbar-logo {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .logo-text {
+                display: none;
+            }
+            
+            .loader-logo {
                 width: 80px;
-                opacity: 1;
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @media (max-width: 992px) {
-            #image-container {
-                margin-bottom: 3rem;
-                height: 350px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            #section-title {
-                font-size: 2.5rem;
+                height: 80px;
             }
             
-            #about {
-                padding: 4rem 0;
+            .loader-logo-text {
+                font-size: 1.6rem;
             }
             
-            #image-container {
-                padding: 2.5rem 2rem;
-                height: 300px;
-            }
-            
-            #overlay-content {
-                padding: 1.5rem 1rem;
-            }
-            
-            .content-header {
-                flex-direction: column;
-                align-items: flex-start;
-                text-align: left;
-            }
-            
-            .content-icon {
-                margin-right: 0;
-                margin-bottom: 0.5rem;
+            .loader-text {
+                font-size: 1rem;
             }
         }
-
-        @media (max-width: 576px) {
-            #section-title {
-                font-size: 2rem;
-            }
-            
-            #image-container {
-                height: 280px;
-            }
-            
-            .content-block {
-                padding-left: 0.5rem;
-            }
-            
-            .content-block:hover {
-                padding-left: 1rem;
-            }
-        }
-       /* Modal Styles */
-        .modal-overlay {
-            display: none;
-            background-color: rgba(0, 0, 0, 0.7);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 999;
-        }
-        
-        .modal-box {
-            display: none;
-            position: fixed;
-            background-color: white;
-            border: 3px dashed;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 25px;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
-            border-radius: 12px;
-            min-width: 300px;
-            max-width: 500px;
-            text-align: center;
-        }
-        
-        #investigation-modal {
-            border-color: #0d6efd;
-            box-shadow: 0 5px 30px rgba(13, 110, 253, 0.4);
-        }
-        
-        #counseling-modal {
-            border-color: #198754;
-            box-shadow: 0 5px 30px rgba(25, 135, 84, 0.4);
-        }
-        
-        #emergency-modal {
-            border-color: #dc3545;
-            box-shadow: 0 5px 30px rgba(220, 53, 69, 0.4);
-        }
-        
-        .modal-title {
-            margin-bottom: 15px;
-        }
-        
-        #investigation-modal .modal-title {
-            color: #0d6efd;
-        }
-        
-        #counseling-modal .modal-title {
-            color: #198754;
-        }
-        
-        #emergency-modal .modal-title {
-            color: #dc3545;
-        }
-        
-        .modal-close {
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            margin-top: 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        
-        #investigation-modal .modal-close {
-            background-color: #0d6efd;
-        }
-        
-        #investigation-modal .modal-close:hover {
-            background-color: #0b5ed7;
-        }
-        
-        #counseling-modal .modal-close {
-            background-color: #198754;
-        }
-        
-        #counseling-modal .modal-close:hover {
-            background-color: #146c43;
-        }
-        
-        #emergency-modal .modal-close {
-            background-color: #dc3545;
-        }
-        
-        #emergency-modal .modal-close:hover {
-            background-color: #bb2d3b;
-        }
-        
     </style>
 </head>
 <body>
-    <!-- Enhanced Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <div class="navbar-logo">
-                    <span class="logo-tt">TT</span>
-                </div>
-                Trace Together
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <i class="fas fa-bars text-white"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="fas fa-home me-1"></i>Home
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-plus me-1"></i>Report Missing
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="reportDropdown">
-                            <li><a class="dropdown-item" href="report-item.HTML">
-                                <i class="fas fa-user-plus me-1"></i>Report Item
-                                </a>
-                            </li>
-                            <li><a class="dropdown-item" href="report-person.HTML">
-                                <i class="fas fa-user-plus me-1"></i>Report Person
-                                </a>
-                            </li>
-                            </li>
-                            <li><a class="dropdown-item" href="report-animal.HTML">
-                                <i class="fas fa-user-plus me-1"></i>Report Animal
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="listing.html">
-                            <i class="fas fa-list me-1"></i>Active Listings
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ourNGOs.html">
-                            <i class="fas fa-search me-1"></i>Our NGO'S
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact us.html">
-                            <i class="fas fa-phone me-1"></i>Contact Us
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about us.html">
-                            <i class="fas fa-info-circle me-1"></i>About Us
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="login.html">
-                            <button class="btn btn-login btn-sm ms-2">
-                                <i class="fas fa-user me-1"></i>Login
-                            </button>
-                        </a>
-                    </li>
-                </ul>
+    <!-- Full-screen Carousel Section -->
+    <div class="fullscreen-carousel" id="fullscreenCarousel">
+        <!-- Logo -->
+        <div class="logo-container">
+            <div class="navbar-logo">
+                <span class="logo-tt">TT</span>
             </div>
+            <div class="logo-text">Trace Together</div>
         </div>
-    </nav>
-
-    <!-- Enhanced Hero Section -->
-    <section id="home" class="hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Every Missing Person Matters</h1>
-                <p class="hero-subtitle"><strong>Pakistan's most trusted missing persons platform - providing hope, support, and professional search services to families in crisis. When seconds count, we're here to help.</strong> </p>
-                <div class="hero-cta">
-                    <a href="#services" class="btn btn-hero me-3">
-                        <i class="fas fa-life-ring me-2"></i>Get Help Now
-                    </a>
-                    <a href="#emergency" class="btn btn-outline-light btn-lg emergency-link">
-                        <i class="fas fa-phone me-2"></i>Emergency: 1102
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Enhanced 3D Carousel Section -->
-    <section id="services" class="carousel-3d-section">
-        <div class="container">
-            <h2 class="section-title text-white mb-5">Comprehensive Support Services</h2>
-            <div class="carousel-indicators">
-                <div class="indicator active" data-slide="0"></div>
-                <div class="indicator" data-slide="1"></div>
-                <div class="indicator" data-slide="2"></div>
-                <div class="indicator" data-slide="3"></div>
-                <div class="indicator" data-slide="4"></div>
-            </div>
-            
-            <div class="carousel-3d-container">
-                <div class="carousel-3d" id="carousel3d">
-                    <div class="carousel-item-3d active" data-service="search-operations">
-                        <i class="fas fa-search-location icon"></i>
-                        <h3>Skilled Search Ops</h3>
-                        <p>Advanced investigation techniques and coordinated search efforts across all of Pakistan</p>
-                    </div>
-                    
-                    <div class="carousel-item-3d" data-service="crisis-support">
-                        <i class="fas fa-heart-pulse icon"></i>
-                        <h3>Crisis Support</h3>
-                        <p>Licensed counselors, peer support groups, and mental health resources for families navigating traumatic disappearances</p>
-                    </div>
-                    
-                    <div class="carousel-item-3d" data-service="rapid-response">
-                        <i class="fas fa-bolt icon"></i>
-                        <h3>Rapid Response Unit</h3>
-                        <p>First 48-hour critical response protocol with specialized teams deployed within 2 hours of report filing</p>
-                    </div>
-                    
-                    <div class="carousel-item-3d" data-service="community-network">
-                        <i class="fas fa-users icon"></i>
-                        <h3>Community Mobilization</h3>
-                        <p>Mass alert systems, volunteer networks, and social media campaigns to maximize search visibility and effectiveness</p>
-                    </div>
-                    
-                    <div class="carousel-item-3d" data-service="ai-technology">
-                        <i class="fas fa-brain icon"></i>
-                        <h3>AI-Powered Database</h3>
-                        <p>Facial recognition technology, pattern analysis, and integrated law enforcement databases for enhanced search capabilities</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="carousel-controls">
-                <button class="carousel-btn" id="prevBtn">
-                    <i class="fas fa-chevron-left"></i> Previous
-                </button>
-                <button class="carousel-btn" id="nextBtn">
-                    Next <i class="fas fa-chevron-right"></i>
-                </button>
+        
+        <!-- Slide 1 -->
+        <div class="carousel-slide active">
+            <video class="video-background" autoplay muted loop>
+                <source src="1000101722.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="overlay"></div>
+            <div class="slide-content">
+                <h2 class="slide-title">Find what you’ve lost, reunite what you’ve found</h2>
             </div>
         </div>
         
-    </section>
-
-    <!-- Enhanced About Section -->
-   <section id="about" class="section-padding">
-        <div class="container">
-            <h2 class="section-title">About Trace Together</h2>
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4">
-                    <div class="text-white text-center p-5 rounded-4 shadow-lg" style="background: var(--primary-gradient);">
-                        <i class="fas fa-shield-heart icon-large mb-3"></i>
-                        <h3>Our Promise</h3>
-                        <p class="mb-0">Never giving up on bringing families home</p>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <h3 class="mb-4">Our Mission: Reuniting Pakistan's Families</h3>
-                    <p class="mb-4">Since 2019, Trace Together has served as Pakistan's premier missing persons support organization. We combine advanced technology, professional expertise, and community solidarity to provide comprehensive assistance to families facing the unthinkable reality of a missing loved one.</p>
-
-                    <h3 class="mb-4">Our Vision: A Connected Pakistan</h3>
-                    <p class="mb-4">We envision a Pakistan where sophisticated early warning systems, community networks, and rapid response protocols ensure that no family faces the crisis of a missing person without immediate, professional support and the full power of community behind them.</p>
-
-                    <h3 class="mb-4">Why This Work Matters</h3>
-                    <p>Beyond statistics lies human suffering - parents searching for children, spouses seeking partners, children hoping for parents' return. Every case represents a family's worst nightmare and their greatest hope. Our multidisciplinary approach addresses not just the search, but the emotional, legal, and practical challenges families face during these critical times.</p>
-                </div>
+        <!-- Slide 2 -->
+        <div class="carousel-slide">
+            <video class="video-background" autoplay muted loop>
+                <source src="1000101721.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="overlay"></div>
+            <div class="slide-content">
+                <h2 class="slide-title">Do you know that over 10,500 missing person cases have been reported in Pakistan since 2011?</h2>
             </div>
         </div>
-    </section>
-
-    <!-- Enhanced Services Section -->
-    <section class="section-padding bg-light">
-        <div class="container">
-            <h2 class="section-title">Specialized Services</h2>
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="card card-custom">
-                        <div class="card-body text-center p-5">
-                            <i class="fas fa-search-location icon-large text-primary"></i>
-                            <h4 class="mb-3">Professional Investigation Services</h4>
-                            <p class="text-muted mb-4">Licensed private investigators, forensic specialists, and database analysts working with law enforcement agencies across Pakistan to locate missing persons using cutting-edge technology and proven methodologies.</p>
-                            <button class="btn btn-outline-primary btn-sm service-btn" data-service="investigation">
-                                <i class="fas fa-phone me-1"></i>Emergency Contact
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card card-custom">
-                        <div class="card-body text-center p-5">
-                            <i class="fas fa-heart-pulse icon-large text-success"></i>
-                            <h4 class="mb-3">Trauma-Informed Care</h4>
-                            <p class="text-muted mb-4">Licensed clinical psychologists, social workers, and peer counselors providing specialized support for secondary trauma, prolonged grief, and the unique psychological challenges of ambiguous loss.</p>
-                            <button class="btn btn-outline-success btn-sm service-btn" data-service="counseling">
-                                <i class="fas fa-calendar me-1"></i>Schedule Session
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card card-custom">
-                        <div class="card-body text-center p-5">
-                            <i class="fas fa-clock icon-large text-danger"></i>
-                            <h4 class="mb-3">Critical Response Protocol</h4>
-                            <p class="text-muted mb-4">Immediate deployment within 2 hours for high-risk cases including child abductions, elderly with dementia, and individuals with mental health crises. Coordinated with CPLC and provincial police forces.</p>
-                            <button class="btn btn-outline-danger btn-sm service-btn" data-service="emergency">
-                                <i class="fas fa-exclamation-triangle me-1"></i>Report Now
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        
+        <!-- Slide 3 -->
+        <div class="carousel-slide">
+            <video class="video-background" autoplay muted loop>
+                <source src="lv_0_20250830001405.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="overlay"></div>
+            <div class="slide-content">
+                <h2 class="slide-title">One report can make the difference between lost and found</h2>
+                <h2 class="slide-title">Report. Connect. Reunite</h2>
             </div>
         </div>
-    </section>
-      <!-- Modal Structures -->
-    <div class="modal-overlay"></div>
-    
-    <!-- Investigation Modal -->
-    <div class="modal-box" id="investigation-modal">
-        <h3 class="modal-title">Professional Investigation Services</h3>
-        <p>Our team of licensed investigators uses advanced technology including facial recognition, database analysis, and coordinated efforts with law enforcement agencies across all provinces of Pakistan. We maintain a 87% success rate in locating missing persons within the first 72 hours.</p>
-        <p><strong>Emergency Response Time:</strong> Within 15 minutes of contact</p>
-        <p><strong>Hotline:</strong> 021-12345678 (24/7)</p>
-        <button class="modal-close">Close</button>
-    </div>
-    
-    <!-- Counseling Modal -->
-    <div class="modal-box" id="counseling-modal">
-        <h3 class="modal-title">Trauma-Informed Care</h3>
-        <p>Our licensed clinicians specialize in the unique psychological challenges faced by families of missing persons. We offer individual counseling, family therapy, support groups, and 24/7 crisis intervention services.</p>
-        <p><strong>Services Include:</strong></p>
-        <ul style="text-align: left; margin-left: 20px;">
-            <li>Individual and family therapy sessions</li>
-            <li>Peer support groups</li>
-            <li>Crisis intervention</li>
-            <li>Prolonged grief therapy</li>
-        </ul>
-        <button class="modal-close">Close</button>
-    </div>
-    
-    <!-- Emergency Modal -->
-    <div class="modal-box" id="emergency-modal">
-        <h3 class="modal-title">Critical Response Protocol</h3>
-        <p>Our rapid response team is specially trained for high-risk missing persons cases. We coordinate directly with CPLC, provincial police forces, and community organizations to ensure the fastest possible response.</p>
-        <p><strong>Response Time:</strong> Deployment within 2 hours of report</p>
-        <p><strong>Specializations:</strong></p>
-        <ul style="text-align: left; margin-left: 20px;">
-            <li>Child abduction cases</li>
-            <li>Elderly with dementia or Alzheimer's</li>
-            <li>Individuals with mental health crises</li>
-            <li>High-risk disappearances</li>
-        </ul>
-        <button class="modal-close">Close</button>
+        
+        <!-- Progress indicator -->
+        <div class="progress-indicator">
+            <div class="progress-dot active" data-slide="0"></div>
+            <div class="progress-dot" data-slide="1"></div>
+            <div class="progress-dot" data-slide="2"></div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        
+        <!-- Skip button -->
+        <a href="index2.html" class="skip-button" id="skipButton">
+            <i class="fas fa-forward"></i> Skip to Home
+        </a>
+        
+        <!-- Logo loader -->
+        <div class="logo-loader" id="logoLoader">
+            <div class="logo-loader-content">
+                <div class="loader-logo">
+                    <div class="loader-logo-text">TT</div>
+                </div>
+                <div class="loader-text">Lets Trace Together</div>
+            </div>
+        </div>
     </div>
 
-    <!-- Enhanced Stats Section -->
-    <section class="stats-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 mb-3">
-                    <div class="stat-item">
-                        <span class="stat-number" data-count="3247">0</span>
-                        <span class="stat-label">Successful Reunifications</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-3">
-                    <div class="stat-item">
-                        <span class="stat-number" data-count="6890">0</span>
-                        <span class="stat-label">Active Database Records</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-3">
-                    <div class="stat-item">
-                        <span class="stat-number" data-count="847">0</span>
-                        <span class="stat-label">Trained Volunteers</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-3">
-                    <div class="stat-item">
-                        <span class="stat-number" data-count="24">0</span>
-                        <span class="stat-label">Hours Daily Operation</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Quick Action Section -->
-    <section class="section-padding">
-        <div class="container">
-            <h2 class="section-title">Quick Actions</h2>
-            <div class="row text-center">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card card-custom h-100" style="border-left: 5px solid #dc3545;">
-                        <div class="card-body p-4">
-                            <i class="fas fa-exclamation-triangle text-danger mb-3" style="font-size: 3rem;"></i>
-                            <h5 class="card-title">Report Missing Person</h5>
-                            <p class="card-text">File an immediate report for a missing person. Our rapid response team will be notified instantly.</p>
-                           <a href="report-person.HTML"><button class="btn btn-danger btn-sm action-btn" data-action="report-missing">
-                               <i class="fas fa-plus me-1"></i>Report Now
-                            </button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card card-custom h-100" style="border-left: 5px solid #7ce494 ;">
-                        <div class="card-body p-4">
-                            <i class="fas fa-user-check text-success mb-3" style="font-size: 3rem;"></i>
-                            <h5 class="card-title">Report Missing Animal</h5>
-                            <p class="card-text">Report someone's pet that might be missing? Help reunite families by reporting your discovery.</p>
-                            <a href="report-animal.HTML"><button class="btn btn-success btn-sm action-btn" >
-                                <i class="fas fa-check me-1"></i>Report Animal
-                            </button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card card-custom h-100" style="border-left: 5px solid #007bff;">
-                        <div class="card-body p-4">
-                            <i class="fas fa-search text-primary mb-3" style="font-size: 3rem;"></i>
-                            <h5 class="card-title">Search Database</h5>
-                            <p class="card-text">Search our comprehensive database of missing and found persons across Pakistan.</p>
-                            <a href="listing.html"> <button class="btn btn-primary btn-sm action-btn" data-action="search-database">
-                               <i class="fas fa-search me-1"></i>Search Now
-                            </button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card card-custom h-100" style="border-left: 5px solid #ffc107;">
-                        <div class="card-body p-4">
-                            <i class="fas fa-hands-helping text-warning mb-3" style="font-size: 3rem;"></i>
-                            <h5 class="card-title">Volunteer</h5>
-                            <p class="card-text">Join our network of volunteers and help make a difference in your community.</p>
-                          <a href="contact us.html">  <button class="btn btn-warning btn-sm action-btn" data-action="volunteer">
-                                <i class="fas fa-heart me-1"></i>Join Us
-                            </button></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Loading Spinner -->
-    <div class="loading-spinner" id="loadingSpinner"></div>
-
-    <!-- Enhanced Footer -->
-    <footer class="footer-custom">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h5><i class="fas fa-search-location me-2"></i>Trace Together</h5>
-                    <p class="mb-4">Pakistan's most trusted missing persons support network. Combining professional expertise, advanced technology, and community strength to bring families home safely and provide comprehensive support during their most challenging times.</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="https://x.com/" title="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://pk.linkedin.com/" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://wa.me/923001234567" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 mb-4">
-                     <h5>Quick Actions</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="listing.html#report-carousel"><i class="fas fa-plus me-2"></i>Report Missing</a></li>
-                        <li class="mb-2"><a href="#emergency" class="emergency-link"><i class="fas fa-phone me-2"></i>Emergency Help</a></li>
-                        <li class="mb-2"><a href="listing.html#listingsContainer"><i class="fas fa-search me-2"></i>Search Database</a></li>
-                        <li class="mb-2"><a href="home.html#services"><i class="fas fa-heart me-2"></i>Crisis Support</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 mb-4">
-                    <h5>Emergency Contact</h5>
-                    <div class="mb-3">
-                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i>CPLC Head Office, Clifton, Karachi, Sindh</p>
-                        <p class="mb-2"><i class="fas fa-phone me-2 text-success"></i>Emergency: <strong>1102</strong> (24/7 Hotline)</p>
-                        <p class="mb-2"><i class="fas fa-envelope me-2 text-info"></i>crisis@tracetogether.org.pk</p>
-                        <p class="mb-2"><i class="fab fa-whatsapp me-2 text-success"></i>WhatsApp: +92-300-TRACE11</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-4">
-                    <h5>Stay Connected</h5>
-                    <p class="mb-3">Get alerts about found persons and safety updates in your area. Your subscription helps save lives.</p>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Your email for alerts" id="emailAlert">
-                        <button class="btn btn-primary" id="subscribeBtn">
-                            <i class="fas fa-bell me-1"></i>Join Network
-                        </button>
-                    </div>
-                    <small class="text-muted">We respect your privacy. Unsubscribe anytime.</small>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="row">
-                <div class="col-md-8">
-                    <p class="mb-2">&copy; 2024 Trace Together NGO. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#crisis">Crisis Resources</a> | <a href="#volunteer">Volunteer</a></p>
-                    <p class="small mb-0">Official Partner: Citizens Police Liaison Committee (CPLC) Sindh | Licensed by Social Welfare Department</p>
-                </div>
-                <div class="col-md-4 text-md-end">
-                    <p class="mb-0"><i class="fas fa-shield-alt me-2 text-success"></i>Verified NGO</p>
-                    <p class="small mb-0">Registration No: SW-KHI-2019-0456</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-         $(document).ready(function(){
-            // Service buttons click handlers
-            $(".service-btn").click(function(){
-                const service = $(this).data('service');
-                
-                if (service === 'investigation') {
-                    showModal('#investigation-modal');
-                } else if (service === 'counseling') {
-                    showModal('#counseling-modal');
-                } else if (service === 'emergency') {
-                    showModal('#emergency-modal');
-                }
-            });
-            
-            // Show modal function
-            function showModal(modalId) {
-                $(".modal-overlay").fadeIn();
-                $(modalId).fadeIn();
-            }
-            
-            // Close buttons handlers
-            $(".modal-close").click(function(){
-                $(".modal-overlay").fadeOut();
-                $(".modal-box").fadeOut();
-            });
-            
-            $(".modal-overlay").click(function(){
-                $(".modal-overlay").fadeOut();
-                $(".modal-box").fadeOut();
-            });
-        });
-        // Emergency alert functionality for both hero section and footer
         document.addEventListener('DOMContentLoaded', function() {
-            var emergencyLinks = document.querySelectorAll('.emergency-link');
-            emergencyLinks.forEach(function(link) {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    alert('Critical Response Protocol\n\nURGENT: Critical response team has been notified and will be\ndeployed within 2 hours. You will receive a confirmation call within 5\nminutes.\n\nEmergency hotline: 1102\n\nFor immediate assistance, call our 24/7 hotline: 1102');
-                });
-            });
-        });
-
-        $(document).ready(function() {
-            // Navbar scroll effect
-            $(window).scroll(function() {
-                if ($(window).scrollTop() > 50) {
-                    $('.navbar-custom').addClass('scrolled');
-                } else {
-                    $('.navbar-custom').removeClass('scrolled');
-                }
-            });
-
-            // 3D Carousel functionality
+            const carousel = document.getElementById('fullscreenCarousel');
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            const progressDots = carousel.querySelectorAll('.progress-dot');
+            const skipButton = document.getElementById('skipButton');
+            const logoLoader = document.getElementById('logoLoader');
             let currentSlide = 0;
-            const totalSlides = $('.carousel-item-3d').length;
-            const angleStep = 360 / totalSlides;
-            
-            function updateCarousel() {
-                $('.carousel-item-3d').each(function(index) {
-                    const angle = (index - currentSlide) * angleStep;
-                    const translateZ = 280;
-                    $(this).css({
-                        'transform': `rotateY(${angle}deg) translateZ(${translateZ}px)`,
-                        'opacity': index === currentSlide ? 0.7 : 0.7
-                    });
-                    
-                    if (index === currentSlide) {
-                        $(this).addClass('active');
-                    } else {
-                        $(this).removeClass('active');
-                    }
+            let isScrolling = false;
+            let scrollTimeout;
+            let redirectTimer;
+
+            // Function to show a specific slide
+            function showSlide(index) {
+                if (index < 0) index = 0;
+                if (index >= slides.length) {
+                    // If we're at the last slide and trying to go further, start redirect
+                    startRedirect();
+                    return;
+                }
+                
+                // Hide all slides
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
                 });
                 
-                $('.indicator').removeClass('active');
-                $(`.indicator[data-slide="${currentSlide}"]`).addClass('active');
+                // Update progress dots
+                progressDots.forEach(dot => {
+                    dot.classList.remove('active');
+                });
                 
-                // Update carousel rotation
-                $('#carousel3d').css('transform', `rotateY(${-currentSlide * angleStep}deg)`);
+                // Show the selected slide and update progress
+                slides[index].classList.add('active');
+                progressDots[index].classList.add('active');
+                currentSlide = index;
             }
-            
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % totalSlides;
-                updateCarousel();
-            }
-            
-            function prevSlide() {
-                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-                updateCarousel();
-            }
-            
-            function goToSlide(slideIndex) {
-                currentSlide = slideIndex;
-                updateCarousel();
-            }
-            
-            // Initialize carousel
-            updateCarousel();
-            
-            // Event listeners
-            $('#nextBtn').on('click', nextSlide);
-            $('#prevBtn').on('click', prevSlide);
-            
-            // Auto-rotate carousel
-            let autoRotateInterval = setInterval(nextSlide, 5000);
-            
-            // Pause auto-rotate on hover
-            $('.carousel-3d-container').hover(
-                function() { clearInterval(autoRotateInterval); },
-                function() { autoRotateInterval = setInterval(nextSlide, 5000); }
-            );
-            
-            // Indicator clicks
-            $('.indicator').on('click', function() {
-                const slideIndex = parseInt($(this).data('slide'));
-                goToSlide(slideIndex);
-            });
-            
-            // Carousel item clicks
-            $('.carousel-item-3d').on('click', function() {
-                const service = $(this).data('service');
-                const serviceName = $(this).find('h3').text();
-                showServiceAlert(serviceName, service);
-            });
 
-            // Service button clicks
-            $('.service-btn').on('click', function() {
-                const service = $(this).data('service');
-                showLoadingAndAction(service);
-            });
+            // Start redirect with logo loader
+            function startRedirect() {
+                // Show the logo loader
+                logoLoader.style.display = 'flex';
+                
+                // Start the redirect timer
+                redirectTimer = setTimeout(() => {
+                    window.location.href = 'index2.html';
+                }, 5000);
+            }
 
-            // Action button clicks
-            $('.action-btn').on('click', function() {
-                const action = $(this).data('action');
-                showLoadingAndAction(action);
-            });
-
-            // Subscribe button
-            $('#subscribeBtn').on('click', function() {
-                const email = $('#emailAlert').val();
-                if (email && validateEmail(email)) {
-                    showLoadingSpinner();
-                    setTimeout(() => {
-                        hideLoadingSpinner();
-                        showSuccessAlert('Thank you for subscribing!', 'You will receive important alerts and updates about missing persons in your area.');
-                        $('#emailAlert').val('');
-                    }, 2000);
+            // Handle scroll events for carousel navigation
+            function handleScroll(e) {
+                if (isScrolling) return;
+                
+                isScrolling = true;
+                
+                // Clear any existing timeout
+                clearTimeout(scrollTimeout);
+                
+                // Determine scroll direction
+                const delta = e.deltaY || e.detail || (-e.wheelDelta);
+                
+                if (delta > 0) {
+                    // Scrolling down - go to next slide
+                    showSlide(currentSlide + 1);
                 } else {
-                    showErrorAlert('Invalid Email', 'Please enter a valid email address.');
+                    // Scrolling up - go to previous slide
+                    showSlide(currentSlide - 1);
                 }
-            });
-            
-            // Smooth scrolling for navigation
-            $('a[href^="#"]').on('click', function(e) {
+                
+                // Set timeout to prevent rapid scrolling
+                scrollTimeout = setTimeout(() => {
+                    isScrolling = false;
+                }, 800);
+                
+                // Prevent default scroll behavior to avoid page jump
                 e.preventDefault();
-                const target = $(this.getAttribute('href'));
-                if (target.length) {
-                    $('html, body').animate({
-                        scrollTop: target.offset().top - 80
-                    }, 1000);
+            }
+
+            // Add event listeners for scroll
+            if (window.addEventListener) {
+                // Modern browsers
+                window.addEventListener('wheel', handleScroll, { passive: false });
+                window.addEventListener('DOMMouseScroll', handleScroll, { passive: false });
+            }
+
+            // Touch events for mobile devices
+            let touchStartY = 0;
+            let touchEndY = 0;
+            
+            carousel.addEventListener('touchstart', function(e) {
+                touchStartY = e.changedTouches[0].screenY;
+            }, false);
+
+            carousel.addEventListener('touchend', function(e) {
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            }, false);
+            
+            function handleSwipe() {
+                if (touchEndY < touchStartY) {
+                    // Swipe up - go to next slide
+                    showSlide(currentSlide + 1);
+                } else if (touchEndY > touchStartY) {
+                    // Swipe down - go to previous slide
+                    showSlide(currentSlide - 1);
+                }
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown') {
+                    // Down arrow - next slide
+                    showSlide(currentSlide + 1);
+                    e.preventDefault();
+                } else if (e.key === 'ArrowUp') {
+                    // Up arrow - previous slide
+                    showSlide(currentSlide - 1);
+                    e.preventDefault();
+                } else if (e.key === 'Escape') {
+                    // Escape key - skip to home
+                    window.location.href = 'index2.html';
                 }
             });
 
-            // Counter animation on scroll
-            let counterAnimated = false;
-            $(window).on('scroll', function() {
-                const statsSection = $('.stats-section');
-                const windowHeight = $(window).height();
-                const scrollTop = $(window).scrollTop();
-                const elementTop = statsSection.offset().top;
-                
-                if (scrollTop + windowHeight > elementTop + 100 && !counterAnimated) {
-                    counterAnimated = true;
-                    $('.stat-number').each(function() {
-                        const $this = $(this);
-                        const count = $this.data('count');
-                        animateCounter($this, 0, count, 2000);
-                    });
+            // Progress dot clicks
+            progressDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const slideIndex = parseInt(this.getAttribute('data-slide'));
+                    showSlide(slideIndex);
+                });
+            });
+
+            // Skip button functionality - clear redirect timer if clicked
+            skipButton.addEventListener('click', function() {
+                if (redirectTimer) {
+                    clearTimeout(redirectTimer);
                 }
             });
-            
-
-            // Helper functions
-            function animateCounter(element, start, end, duration) {
-                let startTime = null;
-                const endValue = parseInt(end);
-                
-                function updateCounter(timestamp) {
-                    if (!startTime) startTime = timestamp;
-                    const progress = Math.min((timestamp - startTime) / duration, 1);
-                    const currentValue = Math.floor(progress * endValue);
-                    element.text(currentValue.toLocaleString());
-                    
-                    if (progress < 1) {
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        element.text(endValue.toLocaleString());
-                    }
-                }
-                
-                requestAnimationFrame(updateCounter);
-            }
-
-            function showServiceAlert(serviceName, serviceType) {
-                const messages = {
-                    'search-operations': 'Connecting you to our Professional Search Operations team. Our investigators are standing by to assist with advanced search techniques and database matching.',
-                    'crisis-support': 'Connecting you to our Crisis Counseling & Support services. Licensed counselors are available 24/7 for immediate assistance.',
-                    'rapid-response': 'Activating Rapid Response Unit. Our specialized team will be deployed within 2 hours for critical cases.',
-                    'community-network': 'Activating Community Mobilization network. Volunteers and social media campaigns will be coordinated for maximum search visibility.',
-                    'ai-technology': 'Accessing AI-Powered Database system. Facial recognition and pattern analysis tools are being prepared for your case.'
-                };
-
-                const message = messages[serviceType] || `Connecting you to ${serviceName} services. Our team will assist you immediately.`;
-                
-                showSuccessAlert(serviceName, message);
-            }
-
-            function showLoadingAndAction(actionType) {
-                showLoadingSpinner();
-                
-                setTimeout(() => {
-                    hideLoadingSpinner();
-                    
-                    
-
-                    if (actions[actionType]) {
-                        actions[actionType]();
-                    } else {
-                        showSuccessAlert('Service Request', 'Your request has been received. Our team will contact you shortly.');
-                    }
-                }, 1500);
-            }
-
-            function showLoadingSpinner() {
-                $('#loadingSpinner').show();
-            }
-
-            function hideLoadingSpinner() {
-                $('#loadingSpinner').hide();
-            }
-
-            function showSuccessAlert(title, message) {
-                alert(`✅ ${title}\n\n${message}\n\nFor immediate assistance, call our 24/7 hotline: 1102`);
-            }
-
-            function showErrorAlert(title, message) {
-                alert(`🚨 ${title}\n\n${message}\n\nFor immediate assistance, call our 24/7 hotline: 1102`);
-            }
-
-            function validateEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
-            
-
-            // Initialize animations
-            setTimeout(() => {
-                $('.hero-content').addClass('animate__animated animate__fadeInUp');
-            }, 500);
         });
     </script>
 </body>
