@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found Items Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* NAVBAR STYLES - COMPACT VERSION (90% appearance) */
+        .navbar-custom {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-custom.scrolled {
+            padding: 0.4rem 0;
+            background: rgba(26, 26, 46, 0.98);
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-logo {
+            width: 36px;
+            height: 36px;
+            margin-right: 10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover .navbar-logo {
+            transform: rotateY(180deg);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .logo-tt {
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            letter-spacing: -1px;
+        }
+
+        .nav-link {
+            color: #adb5bd !important;
+            margin: 0 0.4rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.4rem 0.8rem !important;
+            border-radius: 25px;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            transform: translateY(-2px);
+        }
+
+        /* Login Button */
+        .btn-login {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            color: white;
+            border-radius: 25px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+            background: linear-gradient(135deg, #20c997, #28a745);
+        }
+
+        /* Delete button styling */
+        .btn-delete {
+            background: linear-gradient(135deg, #dc3545, #e74c3c);
+            border: none;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+            background: linear-gradient(135deg, #e74c3c, #dc3545);
+        }
+        
+        /* Confirmation modal styling */
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        .confirmation-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* FOOTER STYLES */
+        .footer-custom {
+            background: rgba(26, 26, 46, 0.95);
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .footer-custom h5 {
+            color: #64b5f6;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-custom a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-custom a:hover {
+            color: #64b5f6;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            text-align: left;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.8rem;
+            margin: 0 15px 0 0;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .social-links a:first-child {
+            margin-left: 0;
+        }
+
+        /* Individual hover colors for each social platform */
+        .social-links a:hover {
+            transform: translateY(-3px) scale(1.2);
+        }
+
+        /* Facebook - Blue */
+        .social-links a[href*="facebook"]:hover,
+        .social-links a.facebook:hover {
+            color: #1877F2;
+        }
+
+        /* Twitter - Light Blue */
+        .social-links a[href*="twitter"]:hover,
+        .social-links a.twitter:hover {
+            color: #1DA1F2;
+        }
+
+        /* Instagram - Gradient effect (using pink as fallback) */
+        .social-links a[href*="instagram"]:hover,
+        .social-links a.instagram:hover {
+            color: #E4405F;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* LinkedIn - Professional Blue */
+        .social-links a[href*="linkedin"]:hover,
+        .social-links a.linkedin:hover {
+            color: #0077B5;
+        }
+
+        /* WhatsApp - Green */
+        .social-links a[href*="whatsapp"]:hover,
+        .social-links a[href*="wa.me"]:hover,
+        .social-links a[href*="api.whatsapp"]:hover,
+        .social-links a.whatsapp:hover {
+            color: #25D366 !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(52, 58, 64, 0.9), rgba(102, 126, 234, 0.8));
+            color: white;
+            padding: 6rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .main-content {
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 0.75rem 2.5rem;
+            font-weight: 600;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            color: white;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .recent-listings {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: slideInUp 0.8s ease-out 0.3s both;
+        }
+
+        .listing-item {
+            background: rgba(255,255,255,0.8);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            gap: 1rem;
+            opacity: 1 !important;
+            visibility: visible !important;
+            height: auto !important;
+            overflow: visible !important;
+        }
+
+        .listing-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .listing-image {
+            flex-shrink: 0;
+            width: 100px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .listing-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .listing-image .no-image {
+            color: #ccc;
+            font-size: 2rem;
+        }
+
+        .listing-content {
+            flex: 1;
+        }
+
+        .listing-type {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .listing-type.lost {
+            background: linear-gradient(135deg, #dc3545, #e74c3c);
+        }
+
+        .listing-type.found {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .listing-title {
+            font-weight: 700;
+            color: #495057;
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .listing-meta {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .social-links a:hover {
+            color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            display: none;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .search-suggestion {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        .search-suggestion:hover {
+            background-color: #f8f9fa;
+        }
+
+        .search-suggestion:last-child {
+            border-bottom: none;
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .listing-actions {
+            margin-top: 1rem;
+        }
+
+        .listing-actions .btn {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .main-content {
+                padding: 2rem 0;
+            }
+            
+            .listing-item {
+                flex-direction: column;
+            }
+            
+            .listing-image {
+                width: 100%;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape">
+            <i class="fas fa-circle" style="font-size: 50px; color: #667eea;"></i>
+        </div>
+        <div class="shape">
+            <i class="fas fa-square" style="font-size: 40px; color: #764ba2;"></i>
+        </div>
+        <div class="shape">
+            <i class="fas fa-triangle" style="font-size: 45px; color: #20c997;"></i>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="navbar-logo">
+                    <span class="logo-tt">TT</span>
+                </div>
+                Trace Together
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-plus me-1"></i>Report Missing
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reportDropdown">
+                            <li><a class="dropdown-item" href="report-item.HTML">
+                                <i class="fas fa-user-plus me-1"></i>Report Item
+                                </a>
+                            </li>
+                            <li><a class="dropdown-item" href="report-person.HTML">
+                                <i class="fas fa-user-plus me-1"></i>Report Person
+                                </a>
+                            </li>
+                            <li><a class="dropdown-item" href="report-animal.HTML">
+                                <i class="fas fa-user-plus me-1"></i>Report Animal
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="listing.html">
+                            <i class="fas fa-list me-1"></i>Active Listings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ourNGOs.html">
+                            <i class="fas fa-search me-1"></i>Our NGO'S
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact us.html">
+                            <i class="fas fa-phone me-1"></i>Contact Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about us.html">
+                            <i class="fas fa-info-circle me-1"></i>About Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html">
+                            <button class="btn btn-login btn-sm ms-2">
+                                <i class="fas fa-user me-1"></i>Login
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1>Lost & Found Items</h1>
+            <p class="hero-subtitle">Reuniting people with their belongings through community and technology</p>
+        </div>
+    </section>
+
+    <section class="main-content" id="report">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Your item report has been submitted successfully! We'll help reunite you with your belongings.
+                    </div>
+                    
+                    <div class="form-container">
+                        <h2 class="section-title">Report Lost or Found Item</h2>
+                        
+                        <form id="reportForm">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fas fa-tag me-2"></i>Type
+                                    </label>
+                                    <select class="form-select" id="type" name="type">
+                                        <option value="Lost">Lost Item</option>
+                                        <option value="Found">Found Item</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fas fa-folder me-2"></i>Category
+                                    </label>
+                                    <select class="form-select" id="category" name="category">
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Documents">Documents</option>
+                                        <option value="Jewelry">Jewelry</option>
+                                        <option value="Wallet/Purse">Wallet/Purse</option>
+                                        <option value="Keys">Keys</option>
+                                        <option value="Clothing">Clothing</option>
+                                        <option value="Bags">Bags</option>
+                                        <option value="Books">Books</option>
+                                        <option value="Sports Equipment">Sports Equipment</option>
+                                        <option value="Toys">Toys</option>
+                                        <option value="Tools">Tools</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-heading me-2"></i>Item Title
+                                </label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Black iPhone 13 Pro, Blue Nike Backpack, Silver Watch">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-align-left me-2"></i>Description
+                                </label>
+                                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Please provide a detailed description including brand, color, size, distinguishing features, model number, etc."></textarea>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fas fa-map-marker-alt me-2"></i>Location
+                                    </label>
+                                    <input type="text" class="form-control" id="location" name="location" placeholder="Where was it lost/found?">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fas fa-calendar me-2"></i>Date
+                                    </label>
+                                    <input type="date" class="form-control" id="date" name="date">
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fas fa-image me-2"></i>Item Photo (optional)
+                                    </label>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                    <div id="imagePreview" style="display: none; margin-top: 1rem;">
+                                        <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fas fa-phone me-2"></i>Contact Information
+                                    </label>
+                                    <input type="text" class="form-control" id="contactInfo" name="contactInfo" placeholder="Phone, email, or both">
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-submit">
+                                    <i class="fas fa-paper-plane me-2"></i>Submit Item Report
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Search Section -->
+                    <div class="search-container mb-4" id="search">
+                        <h3 class="section-title">Search Lost & Found Items</h3>
+                        
+                        <!-- Main Search Input -->
+                        <div class="position-relative mb-3">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search items, brands, descriptions, locations...">
+                            <div id="searchSuggestions" class="search-suggestions" style="display: none;"></div>
+                        </div>
+                        
+                        <!-- Filter Row -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-2">
+                                <select id="typeFilter" class="form-select">
+                                    <option value="all">All Types</option>
+                                    <option value="lost">Lost Items</option>
+                                    <option value="found">Found Items</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="categoryFilter" class="form-select">
+                                    <option value="all">All Categories</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="wallet/purse">Wallet/Purse</option>
+                                    <option value="keys">Keys</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="jewelry">Jewelry</option>
+                                    <option value="documents">Documents</option>
+                                    <option value="bags">Bags</option>
+                                    <option value="books">Books</option>
+                                    <option value="sports equipment">Sports Equipment</option>
+                                    <option value="toys">Toys</option>
+                                    <option value="tools">Tools</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" id="locationFilter" class="form-control" placeholder="Location...">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="date" id="dateFromFilter" class="form-control" title="From Date">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="date" id="dateToFilter" class="form-control" title="To Date">
+                            </div>
+                            <div class="col-md-2">
+                                <button id="clearFilters" class="btn btn-outline-secondary" style="display: none;">
+                                    <i class="fas fa-times me-1"></i>Clear Filters
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Counter -->
+                        <div id="searchResultsCount" class="text-muted small mb-3"></div>
+                    </div>
+                    
+                    <div class="recent-listings" id="listings">
+                        <h3 class="section-title">Recent Item Listings</h3>
+                        <div id="listingsContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div id="imageModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8);">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 90%; max-height: 90%;">
+            <img id="modalImage" src="" style="max-width: 100%; max-height: 100%; border-radius: 8px;">
+            <span class="image-modal-close" style="position: absolute; top: -40px; right: 0; color: white; font-size: 30px; cursor: pointer;">&times;</span>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="confirmation-modal">
+        <div class="confirmation-content">
+            <h4>Confirm Deletion</h4>
+            <p>Are you sure you want to delete this listing? This action cannot be undone.</p>
+            <div class="confirmation-buttons">
+                <button id="confirmDelete" class="btn btn-delete">Yes, Delete</button>
+                <button id="cancelDelete" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="fas fa-search-location me-2"></i>Trace Together</h5>
+                    <p class="mb-4">Pakistan's most trusted missing persons support network. Combining professional expertise, advanced technology, and community strength to bring families home safely and provide comprehensive support during their most challenging times.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="https://x.com/" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://pk.linkedin.com/" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://wa.me/923001234567" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 mb-4">
+                     <h5>Quick Actions</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="listing.html#report-carousel"><i class="fas fa-plus me-2"></i>Report Missing</a></li>
+                        <li class="mb-2"><a href="#emergency"><i class="fas fa-phone me-2"></i>Emergency Help</a></li>
+                        <li class="mb-2"><a href="listing.html#listingsContainer"><i class="fas fa-search me-2"></i>Search Database</a></li>
+                        <li class="mb-2"><a href="home.html#services"><i class="fas fa-heart me-2"></i>Crisis Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5>Emergency Contact</h5>
+                    <div class="mb-3">
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i>CPLC Head Office, Clifton, Karachi, Sindh</p>
+                        <p class="mb-2"><i class="fas fa-phone me-2 text-success"></i>Emergency: <strong>1102</strong> (24/7 Hotline)</p>
+                        <p class="mb-2"><i class="fas fa-envelope me-2 text-info"></i>crisis@tracetogether.org.pk</p>
+                        <p class="mb-2"><i class="fab fa-whatsapp me-2 text-success"></i>WhatsApp: +92-300-TRACE11</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5>Stay Connected</h5>
+                    <p class="mb-3">Get alerts about found persons and safety updates in your area. Your subscription helps save lives.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email for alerts" id="emailAlert">
+                        <button class="btn btn-primary" id="subscribeBtn">
+                            <i class="fas fa-bell me-1"></i>Join Network
+                        </button>
+                    </div>
+                    <small class="text-muted">We respect your privacy. Unsubscribe anytime.</small>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="mb-2">&copy; 2024 Trace Together NGO. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#crisis">Crisis Resources</a> | <a href="#volunteer">Volunteer</a></p>
+                    <p class="small mb-0">Official Partner: Citizens Police Liaison Committee (CPLC) Sindh | Licensed by Social Welfare Department</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <p class="mb-0"><i class="fas fa-shield-alt me-2 text-success"></i>Verified NGO</p>
+                    <p class="small mb-0">Registration No: SW-KHI-2019-0456</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add to the global variables section
+        let listingToDelete = null;
+
+        // Update the generateListingHTML function to include delete button
+        function generateListingHTML(listing) {
+            return `
+                <div class="listing-image">
+                    ${listing.image ? 
+                        `<img src="${listing.image}" alt="${listing.title}" onclick="openImageModal('${listing.image}')" style="cursor: pointer;">` : 
+                        '<i class="fas fa-image no-image"></i>'
+                    }
+                </div>
+                <div class="listing-content">
+                    <span class="listing-type ${listing.type.toLowerCase()}">${listing.type} Item</span>
+                    <h5 class="listing-title">${listing.title}</h5>
+                    <p class="mb-2">${listing.description}</p>
+                    <div class="listing-meta">
+                        <i class="fas fa-map-marker-alt me-1"></i>${listing.location} • 
+                        <i class="fas fa-calendar me-1"></i>${formatDate(listing.date)} • 
+                        <i class="fas fa-folder me-1"></i>${listing.category}
+                    </div>
+                    <div class="mt-2">
+                        <i class="fas fa-phone me-1"></i>${listing.contact}
+                    </div>
+                    <div class="listing-actions mt-3">
+                        <button class="btn btn-sm btn-outline-primary" onclick="contactListing(${listing.id})">
+                            <i class="fas fa-envelope me-1"></i>Contact Owner
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="shareListing(${listing.id})">
+                            <i class="fas fa-share me-1"></i>Share
+                        </button>
+                        <button class="btn btn-sm btn-delete" onclick="initiateDelete(${listing.id})">
+                            <i class="fas fa-trash me-1"></i>Delete
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add the delete functionality functions
+        function initiateDelete(listingId) {
+            listingToDelete = listingId;
+            showConfirmationModal();
+        }
+
+        function showConfirmationModal() {
+            const modal = document.getElementById('confirmationModal');
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        }
+
+        function hideConfirmationModal() {
+            const modal = document.getElementById('confirmationModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function deleteListing() {
+            if (listingToDelete === null) return;
+            
+            // Remove from all listings
+            allListings = allListings.filter(listing => listing.id !== listingToDelete);
+            
+            // Remove from displayed listings
+            displayedListings = displayedListings.filter(listing => listing.id !== listingToDelete);
+            
+            // Update UI
+            loadListings();
+            hideConfirmationModal();
+            listingToDelete = null;
+            
+            // Show success message
+            showDeleteSuccessMessage();
+        }
+
+        function showDeleteSuccessMessage() {
+            // Create a temporary success message
+            const successDiv = document.createElement('div');
+            successDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3';
+            successDiv.style.zIndex = '3000';
+            successDiv.style.transition = 'opacity 0.5s';
+            successDiv.innerHTML = '<i class="fas fa-check-circle me-2"></i>Listing deleted successfully';
+            document.body.appendChild(successDiv);
+            
+            // Animate in
+            setTimeout(() => {
+                successDiv.style.opacity = '1';
+            }, 10);
+            
+            // Remove after delay
+            setTimeout(() => {
+                successDiv.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(successDiv);
+                }, 500);
+            }, 3000);
+        }
+
+        // Add event listeners for the confirmation modal
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmBtn = document.getElementById('confirmDelete');
+            const cancelBtn = document.getElementById('cancelDelete');
+            const modal = document.getElementById('confirmationModal');
+            
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', deleteListing);
+            }
+            
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', hideConfirmationModal);
+            }
+            
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        hideConfirmationModal();
+                    }
+                });
+            }
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideConfirmationModal();
+                }
+            });
+        });
+
+        // Sample listings data - only items
+        const sampleListings = [
+            {
+                id: 1,
+                type: 'Lost',
+                category: 'Electronics',
+                title: 'iPhone 14 Pro Max - Space Black',
+                description: 'Black iPhone 14 Pro Max with cracked screen protector and distinctive cat sticker on the back case',
+                location: 'Central Park',
+                date: '2024-01-15',
+                contact: 'john@email.com',
+                image: 'https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?w=300&h=200&fit=crop'
+            },
+            {
+                id: 2,
+                type: 'Found',
+                category: 'Jewelry',
+                title: 'Silver Wedding Ring',
+                description: 'White gold wedding band with diamond accent, engraved "Forever & Always" inside',
+                location: 'Riverside Park Benches',
+                date: '2024-01-14',
+                contact: '(555) 123-4567',
+                image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=300&h=200&fit=crop'
+            },
+            {
+                id: 3,
+                type: 'Lost',
+                category: 'Wallet/Purse',
+                title: 'Brown Leather Wallet',
+                description: 'Vintage brown leather bifold wallet with multiple cards and family photo',
+                location: 'Downtown Shopping District',
+                date: '2024-01-13',
+                contact: 'mike@email.com',
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=200&fit=crop'
+            },
+            {
+                id: 4,
+                type: 'Found',
+                category: 'Keys',
+                title: 'Car Keys with Honda Logo',
+                description: 'Set of car keys with blue Honda keychain, house keys, and gym membership tag',
+                location: 'Mall Parking Lot Section B',
+                date: '2024-01-12',
+                contact: 'sarah@email.com',
+                image: null
+            },
+            {
+                id: 5,
+                type: 'Lost',
+                category: 'Electronics',
+                title: 'Apple AirPods Pro (2nd Gen)',
+                description: 'White AirPods Pro in charging case with custom engraving "MJ 2023"',
+                location: 'University Library',
+                date: '2024-01-11',
+                contact: '(555) 987-6543',
+                image: null
+            },
+            {
+                id: 6,
+                type: 'Found',
+                category: 'Clothing',
+                title: 'Blue Nike Hoodie',
+                description: 'Navy blue Nike hoodie, size Medium, with small coffee stain on left sleeve',
+                location: 'Coffee Shop on Main Street',
+                date: '2024-01-10',
+                contact: 'amy@email.com',
+                image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300&h=200&fit=crop'
+            },
+            {
+                id: 7,
+                type: 'Lost',
+                category: 'Bags',
+                title: 'Black Backpack - Jansport',
+                description: 'Black Jansport backpack with laptop compartment, contains textbooks and notebooks',
+                location: 'Bus Stop on Oak Avenue',
+                date: '2024-01-09',
+                contact: 'student@university.edu',
+                image: null
+            }
+        ];
+
+        // Global variables
+        let allListings = [...sampleListings]; // Store all original listings
+        let displayedListings = [...sampleListings]; // Store currently displayed listings
+        let listingIdCounter = 8;
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        // Main initialization function
+        function initializeApp() {
+            console.log('Initializing app...');
+            console.log('Sample listings:', sampleListings);
+            setDefaultDate();
+            loadListings();
+            setupEventListeners();
+            setupAnimations();
+            addDynamicStyles();
+            
+            // Debug: Log initial state
+            console.log('All listings after init:', allListings);
+            console.log('Displayed listings after init:', displayedListings);
+        }
+
+        // Set default date to today
+        function setDefaultDate() {
+            const dateInput = document.getElementById('date');
+            if (dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.value = today;
+            }
+        }
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            setupFormHandlers();
+            setupImageHandlers();
+            setupModalHandlers();
+            setupNewsletterHandler();
+            setupSmoothScrolling();
+            setupSearchHandlers();
+            setupSearchSuggestions();
+        }
+
+        // Form submission handler
+        function setupFormHandlers() {
+            const form = document.getElementById('reportForm');
+            if (form) {
+                form.addEventListener('submit', handleFormSubmit);
+            }
+        }
+
+        // Handle form submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const imageFile = document.getElementById('image').files[0];
+            
+            // Validate form
+            if (!validateForm(formData)) {
+                return;
+            }
+            
+            // Create new listing
+            const newListing = createListing(formData, imageFile);
+            
+            // Add to listings
+            allListings.unshift(newListing);
+            
+            // Update UI
+            showSuccessMessage();
+            resetForm();
+            performSearch(); // Refresh the display with current filters
+            scrollToListings();
+        }
+
+        // Validate form data
+        function validateForm(formData) {
+            const requiredFields = ['type', 'category', 'title', 'description', 'location', 'date', 'contactInfo'];
+            const missingFields = requiredFields.filter(field => !formData.get(field)?.trim());
+            
+            if (missingFields.length > 0) {
+                alert('Please fill in all required fields: ' + missingFields.join(', '));
+                return false;
+            }
+            
+            // Validate date
+            const selectedDate = new Date(formData.get('date'));
+            const maxDate = new Date();
+            maxDate.setDate(maxDate.getDate() + 7);
+            
+            if (selectedDate > maxDate) {
+                alert('Date cannot be more than 7 days in the future.');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Create listing object
+        function createListing(formData, imageFile) {
+            return {
+                id: listingIdCounter++,
+                type: formData.get('type'),
+                category: formData.get('category'),
+                title: formData.get('title'),
+                description: formData.get('description'),
+                location: formData.get('location'),
+                date: formData.get('date'),
+                contact: formData.get('contactInfo'),
+                image: imageFile ? URL.createObjectURL(imageFile) : null
+            };
+        }
+
+        // Reset form after submission
+        function resetForm() {
+            document.getElementById('reportForm').reset();
+            const imagePreview = document.getElementById('imagePreview');
+            if (imagePreview) {
+                imagePreview.style.display = 'none';
+            }
+            setDefaultDate();
+        }
+
+        // Show success message
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                successMessage.style.display = 'block';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Scroll to listings section
+        function scrollToListings() {
+            const listingsSection = document.getElementById('listings');
+            if (listingsSection) {
+                listingsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Load and display listings
+        function loadListings() {
+            const container = document.getElementById('listingsContainer');
+            if (!container) {
+                console.error('Listings container not found!');
+                return;
+            }
+            
+            console.log('Loading listings. Count:', displayedListings.length);
+            console.log('Displayed listings:', displayedListings);
+            container.innerHTML = '';
+            
+            if (displayedListings.length === 0) {
+                const noResultsMsg = '<p class="text-center text-muted">No items found matching your criteria. Try adjusting your search filters or be the first to report an item!</p>';
+                container.innerHTML = noResultsMsg;
+                console.log('No listings to display');
+                return;
+            }
+            
+            displayedListings.forEach((listing, index) => {
+                console.log(`Adding listing ${index + 1}:`, listing.title);
+                const listingElement = createListingElement(listing);
+                console.log('Created element:', listingElement);
+                container.appendChild(listingElement);
+            });
+            
+            console.log('Finished loading', displayedListings.length, 'listings');
+            console.log('Container HTML after loading:', container.innerHTML.length, 'characters');
+        }
+
+        // Create listing HTML element
+        function createListingElement(listing) {
+            console.log('Creating element for listing:', listing);
+            const listingElement = document.createElement('div');
+            listingElement.className = 'listing-item';
+            const html = generateListingHTML(listing);
+            console.log('Generated HTML length:', html.length);
+            listingElement.innerHTML = html;
+            console.log('Created listing element:', listingElement);
+            return listingElement;
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Image handling
+        function setupImageHandlers() {
+            const imageInput = document.getElementById('image');
+            const imagePreview = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+            
+            if (imageInput && imagePreview && previewImg) {
+                imageInput.addEventListener('change', function(e) {
+                    handleImageSelection(e.target.files[0], imagePreview, previewImg);
+                });
+            }
+        }
+
+        // Handle image selection
+        function handleImageSelection(file, imagePreview, previewImg) {
+            if (!file) {
+                imagePreview.style.display = 'none';
+                return;
+            }
+            
+            if (!validateImageFile(file)) {
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Validate image file
+        function validateImageFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file.');
+                return false;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Image file size must be less than 5MB.');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Modal handlers
+        function setupModalHandlers() {
+            const modal = document.getElementById('imageModal');
+            const closeBtn = document.querySelector('.image-modal-close');
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeImageModal);
+            }
+            
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeImageModal();
+                    }
+                });
+            }
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeImageModal();
+                }
+            });
+        }
+
+        // Open image modal
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            if (modal && modalImage) {
+                modalImage.src = imageSrc;
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close image modal
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Newsletter handler
+        function setupNewsletterHandler() {
+            const newsletterBtn = document.getElementById('newsletter-btn');
+            const newsletterEmail = document.getElementById('newsletter-email');
+            
+            if (newsletterBtn && newsletterEmail) {
+                newsletterBtn.addEventListener('click', function() {
+                    handleNewsletterSubscription(newsletterEmail.value.trim());
+                });
+                
+                newsletterEmail.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        handleNewsletterSubscription(this.value.trim());
+                    }
+                });
+            }
+        }
+
+        // Handle newsletter subscription
+        function handleNewsletterSubscription(email) {
+            if (email === '') {
+                alert('Please enter your email address.');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            alert('Thank you for subscribing to our newsletter!');
+            document.getElementById('newsletter-email').value = '';
+        }
+
+        // Email validation
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Smooth scrolling
+        function setupSmoothScrolling() {
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Close mobile menu if open
+                        closeMobileMenu();
+                    }
+                });
+            });
+        }
+
+        // Close mobile menu
+        function closeMobileMenu() {
+            const navbarCollapse = document.getElementById('navbarNav');
+            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                bsCollapse.hide();
+            }
+        }
+
+        // Search functionality
+        function setupSearchHandlers() {
+            const searchInput = document.getElementById('searchInput');
+            const typeFilter = document.getElementById('typeFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const locationFilter = document.getElementById('locationFilter');
+            const dateFromFilter = document.getElementById('dateFromFilter');
+            const dateToFilter = document.getElementById('dateToFilter');
+            const clearFiltersBtn = document.getElementById('clearFilters');
+            
+            // Debounced search input
+            if (searchInput) {
+                const debouncedSearch = debounce(() => performSearch(), 300);
+                searchInput.addEventListener('input', debouncedSearch);
+            }
+            
+            // Filter change handlers
+            [typeFilter, categoryFilter, locationFilter, dateFromFilter, dateToFilter].forEach(filter => {
+                if (filter) {
+                    filter.addEventListener('change', performSearch);
+                    filter.addEventListener('input', performSearch);
+                }
+            });
+            
+            // Clear filters button
+            if (clearFiltersBtn) {
+                clearFiltersBtn.addEventListener('click', clearAllFilters);
+            }
+            
+            // Initialize search on page load
+            performSearch();
+        }
+
+        // Perform comprehensive search
+        function performSearch() {
+            console.log('=== SEARCH DEBUG ===');
+            console.log('Total listings:', allListings.length);
+            
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase().trim() || '';
+            const typeFilter = document.getElementById('typeFilter')?.value || 'all';
+            const categoryFilter = document.getElementById('categoryFilter')?.value || 'all';
+            const locationFilter = document.getElementById('locationFilter')?.value.toLowerCase().trim() || '';
+            const dateFrom = document.getElementById('dateFromFilter')?.value || '';
+            const dateTo = document.getElementById('dateToFilter')?.value || '';
+            
+            console.log('Filters:', {
+                searchTerm,
+                typeFilter,
+                categoryFilter,
+                locationFilter,
+                dateFrom,
+                dateTo
+            });
+            
+            // Start with all listings
+            let filteredListings = [...allListings];
+            console.log('Starting with:', filteredListings.length, 'listings');
+            
+            // Text search across multiple fields
+            if (searchTerm) {
+                const beforeCount = filteredListings.length;
+                filteredListings = filteredListings.filter(listing => 
+                    listing.title.toLowerCase().includes(searchTerm) ||
+                    listing.description.toLowerCase().includes(searchTerm) ||
+                    listing.location.toLowerCase().includes(searchTerm) ||
+                    listing.category.toLowerCase().includes(searchTerm) ||
+                    listing.contact.toLowerCase().includes(searchTerm)
+                );
+                console.log(`Text search: ${beforeCount} -> ${filteredListings.length}`);
+            }
+            
+            // Type filter
+            if (typeFilter !== 'all') {
+                const beforeCount = filteredListings.length;
+                filteredListings = filteredListings.filter(listing => {
+                    const match = listing.type.toLowerCase() === typeFilter.toLowerCase();
+                    console.log(`Type check: "${listing.type}" vs "${typeFilter}" = ${match}`);
+                    return match;
+                });
+                console.log(`Type filter: ${beforeCount} -> ${filteredListings.length}`);
+            }
+            
+            // Category filter
+            if (categoryFilter !== 'all') {
+                const beforeCount = filteredListings.length;
+                filteredListings = filteredListings.filter(listing => {
+                    const match = listing.category.toLowerCase() === categoryFilter.toLowerCase();
+                    console.log(`Category check: "${listing.category}" vs "${categoryFilter}" = ${match}`);
+                    return match;
+                });
+                console.log(`Category filter: ${beforeCount} -> ${filteredListings.length}`);
+            }
+            
+            // Location filter
+            if (locationFilter) {
+                const beforeCount = filteredListings.length;
+                filteredListings = filteredListings.filter(listing => 
+                    listing.location.toLowerCase().includes(locationFilter)
+                );
+                console.log(`Location filter: ${beforeCount} -> ${filteredListings.length}`);
+            }
+            
+            // Date range filter
+            if (dateFrom) {
+                const beforeCount = filteredListings.length;
+                filteredListings = filteredListings.filter(listing => 
+                    new Date(listing.date) >= new Date(dateFrom)
+                );
+                console.log(`Date from filter: ${beforeCount} -> ${filteredListings.length}`);
+            }
+            
+            if (dateTo) {
+                const beforeCount = filteredListings.length;
+                filteredListings = filteredListings.filter(listing => 
+                    new Date(listing.date) <= new Date(dateTo)
+                );
+                console.log(`Date to filter: ${beforeCount} -> ${filteredListings.length}`);
+            }
+            
+            console.log('Final filtered count:', filteredListings.length);
+            console.log('About to update displayedListings...');
+            
+            // Sort results by relevance and date
+            filteredListings = sortSearchResults(filteredListings, searchTerm);
+            
+            // Update displayed listings
+            displayedListings = filteredListings;
+            console.log('Updated displayedListings:', displayedListings.length);
+            console.log('Calling loadListings...');
+            loadListings();
+            console.log('loadListings completed');
+            updateSearchResultsCount(filteredListings.length);
+            
+            // Show/hide clear filters button
+            toggleClearFiltersButton();
+        }
+
+        // Sort search results by relevance
+        function sortSearchResults(results, searchTerm) {
+            console.log('sortSearchResults called with:', results.length, 'results, searchTerm:', searchTerm);
+            
+            if (!searchTerm) {
+                // Sort by date (newest first) when no search term
+                const sorted = results.sort((a, b) => new Date(b.date) - new Date(a.date));
+                console.log('Sorted by date:', sorted.length);
+                return sorted;
+            }
+            
+            // Calculate relevance score for each listing
+            const scored = results.map(listing => ({
+                ...listing,
+                relevanceScore: calculateRelevanceScore(listing, searchTerm)
+            }))
+            .sort((a, b) => {
+                // Sort by relevance first, then by date
+                if (b.relevanceScore !== a.relevanceScore) {
+                    return b.relevanceScore - a.relevanceScore;
+                }
+                return new Date(b.date) - new Date(a.date);
+            });
+            
+            console.log('Sorted by relevance:', scored.length);
+            return scored;
+        }
+
+        // Calculate relevance score for search ranking
+        function calculateRelevanceScore(listing, searchTerm) {
+            let score = 0;
+            const term = searchTerm.toLowerCase();
+            
+            // Title match (highest priority)
+            if (listing.title.toLowerCase().includes(term)) {
+                score += listing.title.toLowerCase().indexOf(term) === 0 ? 10 : 7;
+            }
+            
+            // Category match
+            if (listing.category.toLowerCase().includes(term)) {
+                score += 5;
+            }
+            
+            // Location match
+            if (listing.location.toLowerCase().includes(term)) {
+                score += 4;
+            }
+            
+            // Description match
+            if (listing.description.toLowerCase().includes(term)) {
+                score += 3;
+            }
+            
+            // Contact match
+            if (listing.contact.toLowerCase().includes(term)) {
+                score += 2;
+            }
+            
+            // Boost recent items
+            const daysSincePosted = Math.floor((new Date() - new Date(listing.date)) / (1000 * 60 * 60 * 24));
+            if (daysSincePosted < 7) {
+                score += 1;
+            }
+            
+            return score;
+        }
+
+        // Update search results count display
+        function updateSearchResultsCount(count) {
+            const resultsCount = document.getElementById('searchResultsCount');
+            if (resultsCount) {
+                const totalCount = allListings.length;
+                if (count === totalCount) {
+                    resultsCount.textContent = `Showing all ${count} items`;
+                } else {
+                    resultsCount.textContent = `Found ${count} of ${totalCount} items`;
+                }
+                resultsCount.style.display = 'block';
+            }
+        }
+
+        // Clear all search filters
+        function clearAllFilters() {
+            // Clear search input
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            
+            // Reset all select filters
+            const filters = ['typeFilter', 'categoryFilter', 'locationFilter', 'dateFromFilter', 'dateToFilter'];
+            filters.forEach(filterId => {
+                const filter = document.getElementById(filterId);
+                if (filter) {
+                    if (filter.tagName === 'SELECT') {
+                        filter.value = 'all';
+                    } else {
+                        filter.value = '';
+                    }
+                }
+            });
+            
+            // Perform search to reset results
+            performSearch();
+        }
+
+        // Toggle clear filters button visibility
+        function toggleClearFiltersButton() {
+            const clearBtn = document.getElementById('clearFilters');
+            if (!clearBtn) return;
+            
+            const hasActiveFilters = 
+                (document.getElementById('searchInput')?.value || '') !== '' ||
+                (document.getElementById('typeFilter')?.value || 'all') !== 'all' ||
+                (document.getElementById('categoryFilter')?.value || 'all') !== 'all' ||
+                (document.getElementById('locationFilter')?.value || '') !== '' ||
+                (document.getElementById('dateFromFilter')?.value || '') !== '' ||
+                (document.getElementById('dateToFilter')?.value || '') !== '';
+            
+            clearBtn.style.display = hasActiveFilters ? 'inline-block' : 'none';
+        }
+
+        // Advanced search with suggestions
+        function setupSearchSuggestions() {
+            const searchInput = document.getElementById('searchInput');
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            
+            if (!searchInput || !suggestionsContainer) return;
+            
+            searchInput.addEventListener('input', function(e) {
+                const value = e.target.value.toLowerCase().trim();
+                if (value.length < 2) {
+                    hideSuggestions();
+                    return;
+                }
+                
+                const suggestions = generateSearchSuggestions(value);
+                displaySuggestions(suggestions);
+            });
+            
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-container')) {
+                    hideSuggestions();
+                }
+            });
+        }
+
+        // Generate search suggestions
+        function generateSearchSuggestions(query) {
+            const suggestions = new Set();
+            const limit = 5;
+            
+            allListings.forEach(listing => {
+                // Add matching titles
+                if (listing.title.toLowerCase().includes(query)) {
+                    suggestions.add(listing.title);
+                }
+                
+                // Add matching categories
+                if (listing.category.toLowerCase().includes(query)) {
+                    suggestions.add(listing.category);
+                }
+                
+                // Add matching locations
+                if (listing.location.toLowerCase().includes(query)) {
+                    suggestions.add(listing.location);
+                }
+                
+                // Stop when we have enough suggestions
+                if (suggestions.size >= limit) return;
+            });
+            
+            return Array.from(suggestions).slice(0, limit);
+        }
+
+        // Display search suggestions
+        function displaySuggestions(suggestions) {
+            const container = document.getElementById('searchSuggestions');
+            if (!container) return;
+            
+            if (suggestions.length === 0) {
+                hideSuggestions();
+                return;
+            }
+            
+            container.innerHTML = suggestions.map(suggestion => `
+                <div class="search-suggestion" onclick="selectSuggestion('${suggestion}')">
+                    <i class="fas fa-search me-2"></i>${suggestion}
+                </div>
+            `).join('');
+            
+            container.style.display = 'block';
+        }
+
+        // Hide search suggestions
+        function hideSuggestions() {
+            const container = document.getElementById('searchSuggestions');
+            if (container) {
+                container.style.display = 'none';
+            }
+        }
+
+        // Select a search suggestion
+        function selectSuggestion(suggestion) {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = suggestion;
+                performSearch();
+                hideSuggestions();
+            }
+        }
+
+        // Contact listing
+        function contactListing(listingId) {
+            const listing = displayedListings.find(l => l.id === listingId) || allListings.find(l => l.id === listingId);
+            if (!listing) return;
+            
+            const message = `Hi, I saw your ${listing.type.toLowerCase()} item listing: "${listing.title}". I'd like to get in touch about this item.`;
+            
+            if (listing.contact.includes('@')) {
+                // Email contact
+                const mailtoLink = `mailto:${listing.contact}?subject=Regarding: ${listing.title}&body=${encodeURIComponent(message)}`;
+                window.location.href = mailtoLink;
+            } else {
+                // Phone contact
+                alert(`Please contact: ${listing.contact}\n\nSuggested message: ${message}`);
+            }
+        }
+
+        // Share listing
+        function shareListing(listingId) {
+            const listing = displayedListings.find(l => l.id === listingId) || allListings.find(l => l.id === listingId);
+            if (!listing) return;
+            
+            const shareText = `${listing.type} Item: ${listing.title} - ${listing.location}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: shareText,
+                    text: listing.description,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                // Fallback: copy to clipboard
+                const shareUrl = `${window.location.href}#item-${listingId}`;
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        alert('Item listing link copied to clipboard!');
+                    }).catch(() => {
+                        fallbackCopyToClipboard(shareUrl);
+                    });
+                } else {
+                    fallbackCopyToClipboard(shareUrl);
+                }
+            }
+        }
+
+        // Fallback copy to clipboard
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('Item listing link copied to clipboard!');
+            } catch (err) {
+                prompt('Copy this link to share:', text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Animation setup
+        function setupAnimations() {
+            animateShapes();
+            setupScrollAnimations();
+        }
+
+        // Animate floating shapes
+        
+
+        // Setup scroll animations
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements that should animate on scroll
+            document.querySelectorAll('.listing-item, .card, .section').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Add dynamic styles
+        function addDynamicStyles() {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0%, 100% { transform: translateY(0px) rotate(0deg); }
+                    33% { transform: translateY(-10px) rotate(1deg); }
+                    66% { transform: translateY(-20px) rotate(-1deg); }
+                }
+                
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .animate-in {
+                    animation: fadeInUp 0.6s ease-out forwards;
+                }
+                
+                .listing-item {
+                    transition: all 0.3s ease;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    transform: translateY(0) !important;
+                }
+                
+                .listing-item:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                }
+                
+                .btn {
+                    transition: all 0.3s ease;
+                }
+                
+                .btn:hover {
+                    transform: translateY(-2px);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Utility functions
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Export functions for global access
+        window.contactListing = contactListing;
+        window.shareListing = shareListing;
+        window.openImageModal = openImageModal;
+        window.closeImageModal = closeImageModal;
+        window.selectSuggestion = selectSuggestion;
+        window.clearAllFilters = clearAllFilters;
+        window.initiateDelete = initiateDelete;
+    </script>
+</body>
+</html>

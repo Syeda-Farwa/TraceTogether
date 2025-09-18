@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password - Lost & Found Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+        
+        .forgot-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+            margin: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .forgot-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .forgot-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .forgot-header h2 {
+            color: #343a40;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .forgot-header p {
+            color: #6c757d;
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+        
+        .portal-logo {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            color: #495057;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group .form-control {
+            padding-left: 3rem;
+        }
+        
+        .input-group .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            z-index: 10;
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-reset::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-reset:hover::before {
+            left: 100%;
+        }
+        
+        .btn-reset:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #6c757d;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e9ecef;
+        }
+        
+        .divider span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 1rem;
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-bottom: 0;
+        }
+        
+        .auth-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            margin: 0 0.5rem;
+        }
+        
+        .auth-links a:hover {
+            color: #5a6fd8;
+        }
+        
+        .back-to-home {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-home:hover {
+            color: #f8f9fa;
+            transform: translateX(-5px);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .alert-success {
+            background-color: #d1edff;
+            color: #0c5460;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .field-error {
+            border-color: #dc3545 !important;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+        
+        .success-state {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+        
+        .success-state h3 {
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        
+        .success-state p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .resend-timer {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .resend-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .resend-link:hover {
+            color: #5a6fd8;
+            text-decoration: underline;
+        }
+        
+        .resend-link.disabled {
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 576px) {
+            .forgot-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            
+            .back-to-home {
+                top: 1rem;
+                left: 1rem;
+            }
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 70%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 60%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <a href="index.html" class="back-to-home">
+        <i class="fas fa-arrow-left me-2"></i>Back to Portal
+    </a>
+    
+    <div class="forgot-container">
+        <div id="forgotForm">
+            <div class="forgot-header">
+                <i class="fas fa-lock portal-logo"></i>
+                <h2>Forgot Password?</h2>
+                <p>No worries! Enter your email address and we'll send you a link to reset your password.</p>
+            </div>
+            
+            <form id="resetForm" action="reset_password.php" method="POST">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="email" name="email" class="form-control" 
+                               placeholder="Enter your email address" required>
+                    </div>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-reset">
+                    <i class="fas fa-paper-plane me-2"></i>Send Reset Link
+                </button>
+            </form>
+            
+            <div class="divider">
+                <span>or</span>
+            </div>
+            
+            <div class="auth-links">
+                <a href="login.html">
+                    <i class="fas fa-sign-in-alt me-1"></i>Back to Login
+                </a>
+                <span class="text-muted">•</span>
+                <a href="signup.html">
+                    <i class="fas fa-user-plus me-1"></i>Create Account
+                </a>
+            </div>
+        </div>
+        
+        <div id="successState" class="success-state" style="display: none;">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h3>Email Sent!</h3>
+            <p>We've sent a password reset link to your email address. Please check your inbox and follow the instructions.</p>
+            
+            <div class="resend-timer">
+                <span>Didn't receive the email?</span><br>
+                <span id="resendText">
+                    <a href="#" class="resend-link disabled" id="resendLink">Resend in <span id="countdown">60</span>s</a>
+                </span>
+            </div>
+            
+            <div class="divider">
+                <span>or</span>
+            </div>
+            
+            <div class="auth-links">
+                <a href="login.html">
+                    <i class="fas fa-sign-in-alt me-1"></i>Back to Login
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('resetForm');
+            const forgotForm = document.getElementById('forgotForm');
+            const successState = document.getElementById('successState');
+            const resendLink = document.getElementById('resendLink');
+            const countdownElement = document.getElementById('countdown');
+            
+            let resendTimer;
+            let resendCountdown = 60;
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateForm()) {
+                    submitForm();
+                }
+            });
+            
+            function validateForm() {
+                let isValid = true;
+                
+                clearErrors();
+                
+                const email = document.getElementById('email').value.trim();
+                if (!email) {
+                    showError('email', 'Email address is required');
+                    isValid = false;
+                } else if (!isValidEmail(email)) {
+                    showError('email', 'Please enter a valid email address');
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            function submitForm() {
+                const submitBtn = form.querySelector('.btn-reset');
+                const originalText = submitBtn.innerHTML;
+                
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    console.log('Password reset request sent');
+                    
+                    showSuccessState();
+                    startResendTimer();
+                    
+                }, 2000);
+            }
+            
+            function showSuccessState() {
+                forgotForm.style.display = 'none';
+                successState.style.display = 'block';
+                
+                successState.style.opacity = '0';
+                successState.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    successState.style.transition = 'all 0.5s ease';
+                    successState.style.opacity = '1';
+                    successState.style.transform = 'translateY(0)';
+                }, 100);
+            }
+            
+            function startResendTimer() {
+                resendCountdown = 60;
+                resendLink.classList.add('disabled');
+                
+                resendTimer = setInterval(() => {
+                    resendCountdown--;
+                    countdownElement.textContent = resendCountdown;
+                    
+                    if (resendCountdown <= 0) {
+                        clearInterval(resendTimer);
+                        resendLink.classList.remove('disabled');
+                        resendLink.innerHTML = 'Resend Email';
+                    }
+                }, 1000);
+            }
+            
+            resendLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (!this.classList.contains('disabled')) {
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Resending...';
+                    
+                    setTimeout(() => {
+                        showAlert('Password reset email sent again!', 'success');
+                        startResendTimer();
+                    }, 1000);
+                }
+            });
+            
+            function showError(fieldId, message) {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + 'Error');
+                
+                field.classList.add('field-error');
+                errorElement.textContent = message;
+            }
+            
+            function clearErrors() {
+                const errorElements = document.querySelectorAll('.error-message');
+                const fieldElements = document.querySelectorAll('.field-error');
+                
+                errorElements.forEach(el => el.textContent = '');
+                fieldElements.forEach(el => el.classList.remove('field-error'));
+                
+                const existingAlert = document.querySelector('.alert');
+                if (existingAlert) {
+                    existingAlert.remove();
+                }
+            }
+            
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+            
+            function showAlert(message, type) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type}`;
+                alertDiv.innerHTML = `
+                    <i class="fas fa-${type === 'danger' ? 'exclamation-circle' : 'check-circle'} me-2"></i>
+                    ${message}
+                `;
+                
+                successState.insertBefore(alertDiv, successState.firstChild);
+                
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+            
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                    this.parentElement.style.transition = 'transform 0.3s ease';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateY(0)';
+                });
+            });
+            
+            const container = document.querySelector('.forgot-container');
+            container.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 25px 50px rgba(0,0,0,0.15)';
+            });
+            
+            container.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.1)';
+            });
+        });
+    </script>
+</body>
+</html>

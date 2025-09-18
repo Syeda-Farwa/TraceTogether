@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Trace Together</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+         /* CSS Variables */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 10px; /* Space for fixed navbar */
+            min-height: 100vh;
+        }
+
+        /* NAVBAR STYLES */
+        /* NAVBAR STYLES - COMPACT VERSION (90% appearance) */
+.navbar-custom {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 0.8rem 0; /* Reduced from 1rem */
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.navbar-custom.scrolled {
+    padding: 0.4rem 0; /* Reduced from 0.5rem */
+    background: rgba(26, 26, 46, 0.98);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 1.35rem; /* Reduced from 1.5rem */
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.navbar-logo {
+    width: 36px; /* Reduced from 40px */
+    height: 36px; /* Reduced from 40px */
+    margin-right: 10px; /* Reduced from 12px */
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover .navbar-logo {
+    transform: rotateY(180deg);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.logo-tt {
+    font-size: 1.08rem; /* Reduced from 1.2rem */
+    font-weight: 800;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    letter-spacing: -1px;
+}
+
+.nav-link {
+    color: #adb5bd !important;
+    margin: 0 0.4rem; /* Reduced from 0.5rem */
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.4rem 0.8rem !important; /* Reduced from 0.5rem 1rem */
+    border-radius: 25px;
+    font-size: 0.9rem; /* Added to reduce text size */
+}
+
+.nav-link:hover {
+    color: white !important;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    transform: translateY(-2px);
+}
+
+/* Login Button */
+.btn-login {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border: none;
+    color: white;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem; /* Reduced from 0.6rem 1.8rem */
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem; /* Added to reduce text size */
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+    background: linear-gradient(135deg, #20c997, #28a745);
+}
+
+/* Optional: If you want even more compact appearance */
+.navbar-custom-extra-compact {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 0.6rem 0; /* Even more reduced */
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.navbar-custom-extra-compact.scrolled {
+    padding: 0.3rem 0; /* Even more reduced */
+    background: rgba(26, 26, 46, 0.98);
+}
+
+.navbar-custom-extra-compact .navbar-brand {
+    font-size: 1.25rem; /* Even smaller */
+}
+
+.navbar-custom-extra-compact .navbar-logo {
+    width: 32px; /* Even smaller */
+    height: 32px;
+    margin-right: 8px;
+}
+
+.navbar-custom-extra-compact .logo-tt {
+    font-size: 1rem; /* Even smaller */
+}
+
+.navbar-custom-extra-compact .nav-link {
+    margin: 0 0.3rem;
+    padding: 0.3rem 0.7rem !important;
+    font-size: 0.85rem;
+}
+
+.navbar-custom-extra-compact .btn-login {
+    padding: 0.4rem 1.3rem;
+    font-size: 0.85rem;
+}
+
+        /* FOOTER STYLES */
+ .footer-custom {
+    background: rgba(26, 26, 46, 0.95);
+    color: white;
+    padding: 4rem 0 2rem;
+    position: relative;
+    margin-top: auto;
+}
+
+.footer-custom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+}
+
+.footer-custom h5 {
+    color: #64b5f6;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.footer-custom a {
+    color: #adb5bd;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-custom a:hover {
+    color: #64b5f6;
+    transform: translateX(5px);
+}
+
+.social-links {
+    text-align: left; /* Align social links to the left */
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.8rem;
+    margin: 0 15px 0 0; /* Remove left margin, keep right margin */
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.social-links a:first-child {
+    margin-left: 0; /* Ensure first icon has no left margin */
+}
+
+/* Individual hover colors for each social platform */
+.social-links a:hover {
+    transform: translateY(-3px) scale(1.2);
+}
+
+/* Facebook - Blue */
+.social-links a[href*="facebook"]:hover,
+.social-links a.facebook:hover {
+    color: #1877F2;
+}
+
+/* Twitter - Light Blue */
+.social-links a[href*="twitter"]:hover,
+.social-links a.twitter:hover {
+    color: #1DA1F2;
+}
+
+/* Instagram - Gradient effect (using pink as fallback) */
+.social-links a[href*="instagram"]:hover,
+.social-links a.instagram:hover {
+    color: #E4405F;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* LinkedIn - Professional Blue */
+.social-links a[href*="linkedin"]:hover,
+.social-links a.linkedin:hover {
+    color: #0077B5;
+}
+
+/* WhatsApp - Green (multiple selectors for different URL formats) */
+.social-links a[href*="whatsapp"]:hover,
+.social-links a[href*="wa.me"]:hover,
+.social-links a[href*="api.whatsapp"]:hover,
+.social-links a.whatsapp:hover {
+    color: #25D366 !important;
+}
+
+
+
+/* Alternative: If you want even more control over positioning */
+.social-links-container {
+    display: flex;
+    justify-content: flex-start; /* Align to left */
+    gap: 15px; /* Consistent spacing between icons */
+}
+
+.social-links-container a {
+    color: white;
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+    margin: 0; /* Remove all margins when using flexbox */
+}
+
+/* Individual hover colors for flexbox version */
+.social-links-container a:hover {
+    transform: translateY(-3px) scale(1.2);
+}
+
+.social-links-container a[href*="facebook"]:hover,
+.social-links-container a.facebook:hover {
+    color: #1877F2;
+}
+
+.social-links-container a[href*="twitter"]:hover,
+.social-links-container a.twitter:hover {
+    color: #1db6f2;
+}
+
+.social-links-container a[href*="instagram"]:hover,
+.social-links-container a.instagram:hover {
+    color: #E4405F;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.social-links-container a[href*="linkedin"]:hover,
+.social-links-container a.linkedin:hover {
+    color: #0077B5;
+}
+
+.social-links-container a[href*="whatsapp"]:hover,
+.social-links-container a[href*="wa.me"]:hover,
+.social-links-container a[href*="api.whatsapp"]:hover,
+.social-links-container a.whatsapp:hover {
+    color: #25D366 !important;
+}
+        
+
+        /* Hero Section - Different from home page */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(52, 58, 64, 0.9) 0%, rgba(102, 126, 234, 0.9) 100%), 
+                        url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 10rem 0 6rem;
+            text-align: center;
+            margin-top: 10px;
+            position: relative;
+            
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        .breadcrumb-custom {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb-custom a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-custom a:hover {
+            color: white;
+        }
+
+        /* Content sections */
+        .section-padding {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #343a40;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .section-padding {
+            padding: 5rem 0;
+            background-color: #f8f9fa;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #343a40;
+            position: relative;
+        }
+       
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        .story-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 3rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Updated story-image styles for perfect left alignment */
+        .story-image {
+            height: 400px; /* Increased height for better proportion */
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%),
+                        url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover; /* This ensures the image covers the entire area */
+            background-position: 20% center; /* Move further left to show the people */
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            flex-shrink: 0;
+            position: relative;
+        }
+        
+        /* Alternative approach using object-fit for even better control */
+        .story-image-alt {
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .story-image-alt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: left center;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+        
+        .story-image-alt::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+            z-index: 2;
+        }
+        
+        .story-image-alt > div {
+            position: relative;
+            z-index: 3;
+        }
+        
+        .story-content {
+            padding: 3rem 2rem; /* Increased padding to match image height */
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+        }
+        
+        .story-content h3 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .story-content p {
+            color: #718096;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .story-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .story-image, .story-image-alt {
+                height: 300px;
+            }
+            .story-content {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .story-image, .story-image-alt {
+                height: 250px;
+            }
+            .story-content h3 {
+                font-size: 1.5rem;
+            }
+            .story-content p {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Row alignment fix */
+        .row.no-gutters {
+            margin: 0;
+        }
+        
+        .row.no-gutters > [class*="col-"] {
+            padding: 0;
+        }
+        
+        /* Ensure equal heights on desktop */
+        @media (min-width: 992px) {
+            .row.no-gutters {
+                display: flex;
+                align-items: stretch;
+            }
+        }
+
+        /* Values grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            align-items: stretch; /* Ensure equal heights */
+        }
+        
+        @media (max-width: 992px) {
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .value-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 300px; /* Minimum height for consistency */
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .value-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
+            color: white;
+            transition: all 0.3s ease;
+            flex-shrink: 0; /* Keep icon size consistent */
+        }
+
+        .value-card:hover .value-icon {
+            transform: scale(1.1);
+        }
+
+        .value-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            flex-shrink: 0; /* Keep title size consistent */
+        }
+
+        .value-description {
+            color: #718096;
+            line-height: 1.6;
+            flex: 1; /* Fill remaining space */
+            font-size: 0.95rem;
+        }
+
+        /* Leadership section */
+        .leadership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            align-items: stretch; /* Ensure equal heights */
+        }
+
+        .leader-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 400px; /* Minimum height for consistency */
+        }
+
+        .leader-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .leader-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .leader-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .leader-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            border: 4px solid #f8f9fa;
+            transition: all 0.3s ease;
+            flex-shrink: 0; /* Keep image size consistent */
+        }
+
+        .leader-card:hover .leader-image {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .leader-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .leader-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            flex-shrink: 0; /* Keep name size consistent */
+        }
+
+        .leader-title {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            flex-shrink: 0; /* Keep title size consistent */
+        }
+
+        .leader-bio {
+            color: #718096;
+            line-height: 1.5;
+            font-size: 0.9rem;
+            flex: 1; /* Fill remaining space */
+            overflow: hidden; /* Prevent content overflow */
+        }
+
+        /* Stats section */
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            margin: 3rem 0;
+            border-radius: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Mission statement */
+        .mission-statement {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem 0;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .mission-statement h3 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .mission-statement p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .story-content {
+                padding: 2rem;
+            }
+            
+            .value-card,
+            .leader-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="navbar-logo">
+                    <span class="logo-tt">TT</span>
+                </div>
+                Trace Together
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-plus me-1"></i>Report Missing
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reportDropdown">
+                            <li><a class="dropdown-item" href="report-item.HTML">
+                                <i class="fas fa-user-plus me-1"></i>Report Item
+                                </a>
+                            </li>
+                            <li><a class="dropdown-item" href="report-person.HTML">
+                                <i class="fas fa-user-plus me-1"></i>Report Person
+                                </a>
+                            </li>
+                            <li><a class="dropdown-item" href="report-animal.HTML">
+                                <i class="fas fa-user-plus me-1"></i>Report Animal
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="listing.html">
+                            <i class="fas fa-list me-1"></i>Active Listings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ourNGOs.html">
+                            <i class="fas fa-search me-1"></i>Our NGO'S
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact us.html">
+                            <i class="fas fa-phone me-1"></i>Contact Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about us.html">
+                            <i class="fas fa-info-circle me-1"></i>About Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html">
+                            <button class="btn btn-login btn-sm ms-2">
+                                <i class="fas fa-user me-1"></i>Login
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <div class="breadcrumb-custom">
+                    <a href="index.html"><strong>Home</strong></a>
+                </div>
+                <h1><strong> Our Story of Hope and Reunification</strong> </h1>
+                <p><strong> For the last 5 years, Trace Together has been Pakistan's beacon of hope for families facing the trauma of missing loved ones.</strong> </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="section-padding">
+         <div class="story-section fade-in mt-4">
+                <div class="row no-gutters">
+                    <div class="col-lg-6">
+                        <div class="story-image-alt">
+                            <div>
+                                <h2 class="mb-3">5 Years of Service</h2>
+                                <p class="lead">Bringing families back together</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="story-content">
+                            <h3>Our Journey Began with a Promise</h3>
+                            <p>Trace Together was founded in 2019 with a simple yet powerful mission: no family should face the trauma of a missing loved one alone. What started as a small initiative has grown into Pakistan's most comprehensive missing persons platform.</p>
+                            <p>In collaboration with the Citizens Police Liaison Committee (CPLC) - Sindh, we've built a network of hope that spans across the nation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="container">
+        <div class="stats-section fade-in">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="5820">0</span>
+                        <span class="stat-label">Missing Persons Found</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="450">0</span>
+                        <span class="stat-label">Active Volunteers</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="5">0</span>
+                        <span class="stat-label">Years of Service</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="2847">0</span>
+                        <span class="stat-label">Families Reunited</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values Section -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title fade-in">Our Core Values</h2>
+            <div class="values-grid">
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="value-title">Compassion</h3>
+                    <p class="value-description">
+                        We approach every case with deep empathy, understanding the emotional journey families face when a loved one goes missing.
+                    </p>
+                </div>
+                
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="value-title">Community</h3>
+                    <p class="value-description">
+                        We believe in the collective power of communities working together to bring missing persons home safely.
+                    </p>
+                </div>
+                
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="value-title">Integrity</h3>
+                    <p class="value-description">
+                        We maintain the highest standards of confidentiality, security, and ethical conduct in all our operations.
+                    </p>
+                </div>
+                
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="value-title">Urgency</h3>
+                    <p class="value-description">
+                        Time is critical in missing person cases. We respond swiftly and work tirelessly around the clock.
+                    </p>
+                </div>
+                
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="value-title">Innovation</h3>
+                    <p class="value-description">
+                        We continuously evolve our technology and methods to improve our search and reunification efforts.
+                    </p>
+                </div>
+                
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3 class="value-title">Hope</h3>
+                    <p class="value-description">
+                        We never give up. Every case matters, and we believe that with persistence, families can be reunited.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title fade-in">Our Leadership Team</h2>
+            <div class="leadership-grid">
+                <div class="leader-card fade-in">
+                    <div class="leader-image">
+                        <img src="ChatGPT Image Aug 25, 2025, 01_09_48 AM.png" alt="Ahmed Hassan" />
+                    </div>
+                    <h3 class="leader-name">Ahmed Hassan</h3>
+                    <p class="leader-title">Chief Executive Officer</p>
+                    <p class="leader-bio">
+                        Leading Trace Together since 2019, Ahmed brings over 15 years of experience in social impact and technology. His vision has transformed how Pakistan responds to missing person cases.
+                    </p>
+                </div>
+                
+                <div class="leader-card fade-in">
+                    <div class="leader-image">
+                        <img src="ChatGPT Image Aug 25, 2025, 01_16_04 AM.png" alt="Fatima Khan" />
+                    </div>
+                    <h3 class="leader-name">Dr. Fatima Khan</h3>
+                    <p class="leader-title">Director of Operations</p>
+                    <p class="leader-bio">
+                        A clinical psychologist specializing in trauma support, Dr. Khan oversees our family support programs and volunteer training initiatives across Pakistan.
+                    </p>
+                </div>
+                
+                <div class="leader-card fade-in">
+                    <div class="leader-image">
+                        <img src="ChatGPT Image Aug 25, 2025, 01_15_50 AM.png" alt="Hassan Ali" />
+                    </div>
+                    <h3 class="leader-name">Hassan Ali</h3>
+                    <p class="leader-title">Technology Director</p>
+                    <p class="leader-bio">
+                        Former software architect at leading tech companies, Hassan develops and maintains our cutting-edge platform that connects families, volunteers, and law enforcement.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Statement -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="mission-statement fade-in">
+                <h3>Our Mission Statement</h3>
+                <p>
+                    In partnership with the Citizens Police Liaison Committee (CPLC) - Sindh and communities across Pakistan, 
+                    Trace Together is a nonprofit organization committed to helping locate and reunite missing family members. 
+                    Our comprehensive platform provides families with the resources, community support, and advanced technology 
+                    they need during their most challenging times. We are the bridge between despair and hope, between loss and reunion.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How We Help Section -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title fade-in">How We Make a Difference</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="story-section fade-in">
+                        <div class="story-image" style="height: 250px; background: linear-gradient(135deg, rgba(40, 167, 69, 0.8) 0%, rgba(32, 201, 151, 0.8) 100%), url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                            <div>
+                                <i class="fas fa-search fa-3x mb-3"></i>
+                                <h4>Advanced Search Technology</h4>
+                            </div>
+                        </div>
+                        <div class="story-content">
+                            <p>Our proprietary matching algorithms analyze patterns, locations, and characteristics to identify potential matches faster than traditional methods, dramatically reducing search time.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="story-section fade-in">
+                        <div class="story-image" style="height: 250px; background: linear-gradient(135deg, rgba(220, 53, 69, 0.8) 0%, rgba(253, 126, 20, 0.8) 100%), url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                            <div>
+                                <i class="fas fa-hands-helping fa-3x mb-3"></i>
+                                <h4>24/7 Family Support</h4>
+                            </div>
+                        </div>
+                        <div class="story-content">
+                            <p>Our trained counselors and support specialists are available around the clock to provide emotional support, guidance, and practical assistance to families in crisis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Impact Section -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title fade-in">Our Impact Stories</h2>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card fade-in" style="text-align: left;">
+                        <div class="value-icon" style="margin-left: 0; margin-right: 1rem; width: 60px; height: 60px; font-size: 1.5rem; float: left;">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div style="overflow: hidden;">
+                            <h4 class="value-title">Bringing Children Home</h4>
+                            <p class="value-description">Over 1,200 missing children have been safely returned to their families through our coordinated efforts with law enforcement and community volunteers.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card fade-in" style="text-align: left;">
+                        <div class="value-icon" style="margin-left: 0; margin-right: 1rem; width: 60px; height: 60px; font-size: 1.5rem; float: left;">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div style="overflow: hidden;">
+                            <h4 class="value-title">Mental Health Support</h4>
+                            <p class="value-description">Our counseling services have provided psychological support to over 3,500 families, helping them cope with trauma and stress.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card fade-in" style="text-align: left;">
+                        <div class="value-icon" style="margin-left: 0; margin-right: 1rem; width: 60px; height: 60px; font-size: 1.5rem; float: left;">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div style="overflow: hidden;">
+                            <h4 class="value-title">Prevention Education</h4>
+                            <p class="value-description">We've conducted awareness programs in over 200 schools and communities, educating families about safety measures and prevention strategies.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnerships Section -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title fade-in">Our Partnerships</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 fade-in">
+                    <h3 class="mb-4">Working Together for Greater Impact</h3>
+                    <p class="mb-3">Trace Together collaborates with various organizations to maximize our effectiveness and reach:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-shield-alt text-primary me-3"></i>
+                            <strong>Citizens Police Liaison Committee (CPLC) - Sindh</strong><br>
+                            <small class="text-muted">Primary law enforcement partner providing investigative support</small>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-hospital text-success me-3"></i>
+                            <strong>Major Hospitals & Medical Centers</strong><br>
+                            <small class="text-muted">Quick identification and medical assistance for found persons</small>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-broadcast-tower text-info me-3"></i>
+                            <strong>Media Partners</strong><br>
+                            <small class="text-muted">Broadcasting alerts and raising public awareness</small>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-hands-helping text-warning me-3"></i>
+                            <strong>Local NGOs & Community Groups</strong><br>
+                            <small class="text-muted">Expanding our volunteer network and community reach</small>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 fade-in">
+                    <div class="story-section">
+                        <div class="story-image" style="height: 300px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%), url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                            <div>
+                                <i class="fas fa-handshake fa-4x mb-3"></i>
+                                <h4>Stronger Together</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology & Innovation Section -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title fade-in">Technology & Innovation</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="story-section fade-in">
+                        <div class="story-content text-center">
+                            <h3>Pioneering Digital Solutions</h3>
+                            <p>At Trace Together, we leverage cutting-edge technology to revolutionize missing person search efforts in Pakistan. Our platform represents the most advanced missing persons database in South Asia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="value-title">AI-Powered Matching</h3>
+                        <p class="value-description">
+                            Machine learning algorithms analyze facial features, physical characteristics, and behavioral patterns to suggest potential matches.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="value-title">Mobile App Platform</h3>
+                        <p class="value-description">
+                            Real-time reporting and alert system accessible through our mobile application, reaching communities across Pakistan instantly.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3 class="value-title">Secure Database</h3>
+                        <p class="value-description">
+                            Bank-level security protecting sensitive information while enabling authorized personnel to access critical data quickly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards & Recognition Section -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title fade-in">Awards & Recognition</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-card fade-in">
+                        <div class="value-icon" style="background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4 class="value-title">National Excellence Award</h4>
+                        <p class="value-description">2023 - Ministry of Human Rights, Pakistan</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-card fade-in">
+                        <div class="value-icon" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h4 class="value-title">Social Impact Innovation</h4>
+                        <p class="value-description">2022 - Pakistan Innovation Foundation</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-card fade-in">
+                        <div class="value-icon" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h4 class="value-title">Technology for Good</h4>
+                        <p class="value-description">2021 - Sindh IT Board</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-card fade-in">
+                        <div class="value-icon" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h4 class="value-title">Community Service Excellence</h4>
+                        <p class="value-description">2020 - Karachi Chamber of Commerce</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Program Section -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title fade-in">Join Our Volunteer Program</h2>
+            <div class="row">
+                <div class="col-lg-6 fade-in">
+                    <div class="story-section">
+                        <div class="story-image" style="height: 300px; background: linear-gradient(135deg, rgba(40, 167, 69, 0.8) 0%, rgba(32, 201, 151, 0.8) 100%), url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                            <div>
+                                <i class="fas fa-users fa-4x mb-3"></i>
+                                <h4>450+ Active Volunteers</h4>
+                            </div>
+                        </div>
+                        <div class="story-content">
+                            <h4>Become a Hero in Someone's Story</h4>
+                            <p>Our volunteers are the backbone of Trace Together. From field searches to emotional support, from technology assistance to awareness campaigns - every contribution makes a difference.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 fade-in">
+                    <h3 class="mb-4">Volunteer Opportunities</h3>
+                    <div class="list-group">
+                        <div class="list-group-item border-0 bg-light rounded mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-search text-primary me-3 fa-2x"></i>
+                                <div>
+                                    <h5 class="mb-1">Search & Rescue Teams</h5>
+                                    <p class="mb-0">Join ground search operations and coordinate with law enforcement</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-group-item border-0 bg-light rounded mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-headset text-success me-3 fa-2x"></i>
+                                <div>
+                                    <h5 class="mb-1">Helpline Support</h5>
+                                    <p class="mb-0">Provide initial support and guidance to families in crisis</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-group-item border-0 bg-light rounded mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-laptop text-info me-3 fa-2x"></i>
+                                <div>
+                                    <h5 class="mb-1">Digital Volunteers</h5>
+                                    <p class="mb-0">Help with social media outreach and online awareness campaigns</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-group-item border-0 bg-light rounded mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-heart text-danger me-3 fa-2x"></i>
+                                <div>
+                                    <h5 class="mb-1">Counseling Support</h5>
+                                    <p class="mb-0">Provide emotional support to families (training provided)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Transparency Section -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title fade-in">Financial Transparency</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="mission-statement fade-in">
+                        <h3>How We Use Your Support</h3>
+                        <p class="mb-4">As a nonprofit organization, we are committed to transparency in how we use donations and funding to maximize our impact.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-card fade-in text-center">
+                        <div class="stat-number" data-count="85" style="color: #667eea; font-size: 2.5rem; margin-bottom: 1rem;">85%</div>
+                        <h4 class="value-title">Direct Services</h4>
+                        <p class="value-description">Search operations, family support, and technology development</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-card fade-in text-center">
+                        <div class="stat-number" data-count="10" style="color: #28a745; font-size: 2.5rem; margin-bottom: 1rem;">10%</div>
+                        <h4 class="value-title">Administration</h4>
+                        <p class="value-description">Essential operational costs and overhead expenses</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-card fade-in text-center">
+                        <div class="stat-number" data-count="3" style="color: #ffc107; font-size: 2.5rem; margin-bottom: 1rem;">3%</div>
+                        <h4 class="value-title">Fundraising</h4>
+                        <p class="value-description">Costs associated with raising additional funds</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-card fade-in text-center">
+                        <div class="stat-number" data-count="2" style="color: #17a2b8; font-size: 2.5rem; margin-bottom: 1rem;">2%</div>
+                        <h4 class="value-title">Reserves</h4>
+                        <p class="value-description">Emergency fund for crisis response situations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA Section -->
+    <section class="section-padding" style="background: var(--primary-gradient);">
+        <div class="container text-center">
+            <div class="fade-in">
+                <h2 class="section-title">Ready to Get Involved?</h2>
+                <p class="lead mb-4">Whether you want to volunteer, need our services, or simply want to learn more about our mission, we're here to help.</p>
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 mb-3">
+                        <a href="contact us.html" class="btn btn-primary btn-lg w-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 50px;">
+                            <i class="fas fa-hands-helping me-2"></i>Become a Volunteer
+                        </a>
+                    </div>
+                    <div class="col-lg-4 mb-3">
+    <a href="listing.html#report-carousel" class="btn btn-lg w-100" 
+       style="border-radius: 50px; padding: 1rem; background:rgba(98, 83, 233, 0.945);">
+        <i class="fas fa-flag me-2"></i>Make a Report
+    </a>
+</div>
+                    <div class="col-lg-4 mb-3">
+                        <a href="contact us.html" class="btn btn-outline-primary btn-lg w-100" style="background:rgba(168, 160, 245, 0.945); border-radius: 50px;">
+                            <i class="fas fa-envelope me-2"></i>Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- FOOTER -->
+ <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="fas fa-search-location me-2"></i>Trace Together</h5>
+                    <p class="mb-4">Pakistan's most trusted missing persons support network. Combining professional expertise, advanced technology, and community strength to bring families home safely and provide comprehensive support during their most challenging times.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="https://x.com/" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://pk.linkedin.com/" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://wa.me/923001234567" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Quick Actions</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="listing.html#report-carousel"><i class="fas fa-plus me-2"></i>Report Missing</a></li>
+                        <li class="mb-2"><a href="#emergency"><i class="fas fa-phone me-2"></i>Emergency Help</a></li>
+                        <li class="mb-2"><a href="listing.html#listingsContainer"><i class="fas fa-search me-2"></i>Search Database</a></li>
+                        <li class="mb-2"><a href="home.html#services"><i class="fas fa-heart me-2"></i>Crisis Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5>Emergency Contact</h5>
+                    <div class="mb-3">
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i>CPLC Head Office, Clifton, Karachi, Sindh</p>
+                        <p class="mb-2"><i class="fas fa-phone me-2 text-success"></i>Emergency: <strong>1102</strong> (24/7 Hotline)</p>
+                        <p class="mb-2"><i class="fas fa-envelope me-2 text-info"></i>crisis@tracetogether.org.pk</p>
+                        <p class="mb-2"><i class="fab fa-whatsapp me-2 text-success"></i>WhatsApp: +92-300-TRACE11</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5>Stay Connected</h5>
+                    <p class="mb-3">Get alerts about found persons and safety updates in your area. Your subscription helps save lives.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email for alerts" id="emailAlert">
+                        <button class="btn btn-primary" id="subscribeBtn">
+                            <i class="fas fa-bell me-1"></i>Join Network
+                        </button>
+                    </div>
+                    <small class="text-muted">We respect your privacy. Unsubscribe anytime.</small>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="mb-2">&copy; 2024 Trace Together NGO. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#crisis">Crisis Resources</a> | <a href="#volunteer">Volunteer</a></p>
+                    <p class="small mb-0">Official Partner: Citizens Police Liaison Committee (CPLC) Sindh | Licensed by Social Welfare Department</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <p class="mb-0"><i class="fas fa-shield-alt me-2 text-success"></i>Verified NGO</p>
+                    <p class="small mb-0">Registration No: SW-KHI-2019-0456</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        
+
+          document.addEventListener('DOMContentLoaded', function() {
+            var emergencyLink = document.querySelector('a[href="#emergency"]');
+            if (emergencyLink) {
+                emergencyLink.addEventListener('click', function(event) {
+                    // Show the alert
+                    alert('Critical Response Protocol\n\nURGENT: Critical response team has been notified and will be\ndeployed within 2 hours. You will receive a confirmation call within 5\nminutes.\n\nEmergency hotline: 1102\n\nFor immediate assistance, call our 24/7 hotline: 1102');
+                });
+            }
+        });
+        // Smooth scroll to carousel when page loads with hash
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if URL has the carousel hash
+    if(window.location.hash === '#report-carousel') {
+        // Wait a tiny bit to ensure all elements are loaded
+        setTimeout(function() {
+            const carouselSection = document.getElementById('report-carousel');
+            if(carouselSection) {
+                carouselSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                
+                // Optional: Highlight the carousel temporarily
+                carouselSection.style.boxShadow = '0 0 0 2px rgba(98, 83, 233, 0.5)';
+                setTimeout(() => {
+                    carouselSection.style.boxShadow = 'none';
+                }, 2000);
+            }
+        }, 100);
+    }
+});
+
+        
+        $(document).ready(function() {
+    
+    // ===== NAVBAR FUNCTIONALITY =====
+    
+    // Navbar scroll effect - changes appearance when scrolling
+    $(window).scroll(function() {
+        if ($(window).scrollTop() > 50) {
+            $('.navbar-custom').addClass('scrolled');
+        } else {
+            $('.navbar-custom').removeClass('scrolled');
+        }
+    });
+
+    // Smooth scrolling for navigation links
+    $('a[href^="#"]').on('click', function(e) {
+        e.preventDefault();
+        const target = $(this.getAttribute('href'));
+        if (target.length) {
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top - 80
+            }, 1000);
+        }
+    });
+
+    // Add active state to current page navigation link
+    function setActiveNavLink() {
+        const currentPage = window.location.pathname.split('/').pop();
+        $('.nav-link').removeClass('active');
+        
+        // Map of pages to nav links
+        const pageMap = {
+            'index.html': 'home',
+            'listing.html': 'listing.html',
+            'ourNGOs.html': 'ourNGOs.html',
+            'contact us.html': 'contact us.html',
+            'about us.html': 'about us.html'
+        };
+        
+        if (pageMap[currentPage]) {
+            $(`.nav-link[href="${pageMap[currentPage]}"]`).addClass('active');
+        }
+    }
+    
+    // Initialize active nav link
+    setActiveNavLink();
+
+    // Navbar collapse on mobile when clicking links
+    $('.navbar-nav .nav-link').on('click', function() {
+        if ($(window).width() < 992) {
+            $('.navbar-collapse').collapse('hide');
+        }
+    });
+
+    // ===== FOOTER FUNCTIONALITY =====
+    
+    // Email subscription functionality
+    $('#subscribeBtn').on('click', function() {
+        const email = $('#emailAlert').val();
+        if (email && validateEmail(email)) {
+            // Show success message
+            showSuccessAlert(
+                'Subscription Successful!', 
+                'Thank you for subscribing! You will receive important alerts and updates about missing persons in your area.'
+            );
+            // Clear the input field
+            $('#emailAlert').val('');
+        } else {
+            // Show error message
+            showErrorAlert(
+                'Invalid Email', 
+                'Please enter a valid email address.'
+            );
+        }
+    });
+
+    // Enter key support for email subscription
+    $('#emailAlert').on('keypress', function(e) {
+        if (e.which === 13) { // Enter key
+            $('#subscribeBtn').click();
+        }
+    });
+
+    // Social media link tracking (optional analytics)
+    $('.social-links a').on('click', function() {
+        const platform = $(this).attr('title');
+        console.log(`Social media click: ${platform}`);
+        // You can add analytics tracking here
+    });
+
+    // Footer link hover effects enhancement
+    $('.footer-custom a').hover(
+        function() {
+            $(this).css('padding-left', '5px');
+        },
+        function() {
+            $(this).css('padding-left', '0px');
+        }
+    );
+
+    // ===== ANIMATION FUNCTIONALITY =====
+    
+    // Fade in animation on scroll
+    function checkScroll() {
+        $('.fade-in').each(function() {
+            var elementTop = $(this).offset().top;
+            var elementBottom = elementTop + $(this).outerHeight();
+            var viewportTop = $(window).scrollTop();
+            var viewportBottom = viewportTop + $(window).height();
+            
+            if (elementBottom > viewportTop && elementTop < viewportBottom - 100) {
+                $(this).addClass('visible');
+            }
+        });
+    }
+    
+    // Initial check for fade-in animations
+    checkScroll();
+
+    // Counter animation function
+    function animateCounter(element, start, end, duration) {
+        var startTime = null;
+        var endValue = parseInt(end);
+        
+        function updateCounter(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var progress = Math.min((timestamp - startTime) / duration, 1);
+            var currentValue = Math.floor(progress * endValue);
+            element.text(currentValue);
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.text(endValue);
+            }
+        }
+        
+        requestAnimationFrame(updateCounter);
+    }
+
+    // ===== COMBINED SCROLL HANDLER =====
+    
+    $(window).on('scroll', function() {
+        // Check fade-in animations
+        checkScroll();
+        
+        // Handle counter animations for stats section
+        var statsSection = $('.stats-section');
+        if (statsSection.length) {
+            var windowHeight = $(window).height();
+            var scrollTop = $(window).scrollTop();
+            var elementTop = statsSection.offset().top;
+            
+            if (scrollTop + windowHeight > elementTop + 100) {
+                $('.stat-number').each(function() {
+                    var $this = $(this);
+                    var count = $this.data('count');
+                    if (!$this.hasClass('animated')) {
+                        $this.addClass('animated');
+                        animateCounter($this, 0, count, 2000);
+                    }
+                });
+            }
+        }
+    });
+
+    // ===== UTILITY FUNCTIONS =====
+    
+    // Email validation function
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // Success alert function
+    function showSuccessAlert(title, message) {
+        alert(`✅ ${title}\n\n${message}\n\nFor immediate assistance, call our 24/7 hotline: 1102`);
+    }
+
+    // Error alert function  
+    function showErrorAlert(title, message) {
+        alert(`❌ ${title}\n\n${message}\n\nFor immediate assistance, call our 24/7 hotline: 1102`);
+    }
+});
+
+// ===== ADDITIONAL STANDALONE FUNCTIONS =====
+
+// Function to update emergency contact number
+function updateEmergencyNumber(newNumber) {
+    $('.footer-custom').find('strong').text(newNumber);
+}
+
+// Function to toggle navbar visibility
+function toggleNavbar(show = true) {
+    if (show) {
+        $('.navbar-custom').slideDown();
+    } else {
+        $('.navbar-custom').slideUp();
+    }
+}
+
+// Function to update social media links
+function updateSocialLinks(socialMediaData) {
+    const socialContainer = $('.social-links');
+    socialContainer.empty();
+    
+    socialMediaData.forEach(function(social) {
+        const link = $(`<a href="${social.url}" title="${social.name}">
+                        <i class="${social.icon}"></i>
+                       </a>`);
+        socialContainer.append(link);
+    });
+}
+
+// Function to add new footer section
+function addFooterSection(title, content, columnClass = 'col-lg-3') {
+    const footerRow = $('.footer-custom .container .row').first();
+    const newSection = $(`
+        <div class="${columnClass} mb-4">
+            <h5>${title}</h5>
+            ${content}
+        </div>
+    `);
+    footerRow.append(newSection);
+}
+    </script>
+</body>
+</html>
